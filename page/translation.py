@@ -1,4 +1,3 @@
-
 from page.models import User
 
 from modeltranslation.translator import translator, TranslationOptions

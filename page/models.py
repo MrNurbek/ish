@@ -19,7 +19,7 @@ class User(AbstractUser):
     email = models.EmailField(('email address'), unique=True, null=False)
     phone_no = models.CharField(max_length=20)
     newpassword = models.CharField(max_length=20, null=True, blank=True)
-    image = models.ImageField(upload_to=get_avatar, default='users/default.png')
+    image = models.ImageField(upload_to='userimg', default='users/default.png')
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'last_name']
     complete = models.IntegerField(default=1)
@@ -106,7 +106,7 @@ class Notification(models.Model):
 
 
 class File(models.Model):
-    file = models.FileField(upload_to=get_file, null=True, blank=True)
+    file = models.FileField(upload_to="messagefile", null=True, blank=True)
     message = models.ForeignKey(Message, related_name='message', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
@@ -114,7 +114,7 @@ class File(models.Model):
 
 
 class File_employee(models.Model):
-    file = models.FileField(upload_to=get_file, null=True, blank=True, default=None)
+    file = models.FileField(upload_to="employeemessagefile", null=True, blank=True, default=None)
     message = models.ForeignKey(Message, related_name='message_employee', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
