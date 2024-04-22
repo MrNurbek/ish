@@ -159,11 +159,11 @@ SIMPLE_JWT = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
-import sys
-import codecs
-sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-sys.stderr = codecs.getwriter('utf8')(sys.stderr)
-DEFAULT_CHARSET = 'utf-8'
+# import sys
+# import codecs
+# sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+# sys.stderr = codecs.getwriter('utf8')(sys.stderr)
+# DEFAULT_CHARSET = 'utf-8'
 
 TIME_ZONE = 'Asia/Tashkent'
 LANGUAGE_CODE = 'en-us-ru'
