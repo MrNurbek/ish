@@ -173,7 +173,7 @@ LANGUAGES = [
     ("ru", _("Russian")),
 ]
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'en-us-ru'
 DATETIME_FORMAT = '%m/%d/%Y %H:%M'
 
 
