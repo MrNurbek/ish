@@ -167,13 +167,16 @@ USE_L10N = True
 
 USE_TZ = True
 
-LANGUAGE_CODE = 'en-us-ru'
+LANGUAGES = [
+    ("uz", _("Uzbek")),
+    ("en", _("English")),
+    ("ru", _("Russian")),
+]
+
+LANGUAGE_CODE = 'ru'
 DATETIME_FORMAT = '%m/%d/%Y %H:%M'
 
-LANGUAGES = (
-    ('ru', _('Russian')),
-    ('en', _('English')),
-)
+
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
 MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'en'
 
