@@ -52,6 +52,20 @@ class CustomuserSerializer3(serializers.ModelSerializer):
         return user
 
 
+class CustomuserSerializer4(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email', "last_name", 'username', 'phone_no', 'image', 'password', 'complete', 'xonasi', 'unvoni',
+                  'is_staff']
+
+    def create(self, validated_data):
+        user = User(**validated_data)
+        # Hash the user's password.
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
+
 class ProfilSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

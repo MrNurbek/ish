@@ -10,7 +10,7 @@ from page.pagination import LargeResultsSetPagination
 from page.serializers import UserSerializer, CustomuserSerializer, CustomuserSerializer2, ProfilSerializer, \
     ProfilSerializerAll, PostMessageSerializer, GetMessageSerializerAll, GetMessageSerializerAll2, ProfilSerializerMe, \
     CustomuserSerializer3, GetUsersSerializer, GetMessageSerializerAll3, FileSerializer, LogoutSerializer, \
-    GetAllMessageSerializer, UserArraySerializer
+    GetAllMessageSerializer, UserArraySerializer, CustomuserSerializer4
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework import generics, mixins
 from rest_framework import viewsets
@@ -35,7 +35,7 @@ urlpatterns = [
 @permission_classes([AllowAny, ])
 def register_user(request):
     if request.method == 'POST':
-        serializer = CustomuserSerializer3(data=request.data)
+        serializer = CustomuserSerializer4(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
