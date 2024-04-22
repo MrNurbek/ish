@@ -164,7 +164,7 @@ LANG = "en_US.UTF-8"
 LC_ALL = "en_US.UTF - 8"
 LC_LANG = "en_US.UTF-8"
 TIME_ZONE = 'Asia/Tashkent'
-
+LANGUAGE_CODE = 'en-us-ru'
 USE_I18N = True
 
 USE_L10N = True
@@ -177,7 +177,6 @@ LANGUAGES = [
     ("ru", _("Russian")),
 ]
 
-LANGUAGE_CODE = 'en-us-ru'
 DATETIME_FORMAT = '%m/%d/%Y %H:%M'
 
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
