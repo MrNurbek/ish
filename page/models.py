@@ -29,6 +29,9 @@ class User(AbstractUser):
     class Meta:
         ordering = ['-id']
 
+    def __unicode__(self):
+        return u"%s..." % self.image
+
     def __str__(self):
         return self.email
 

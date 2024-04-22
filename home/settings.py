@@ -163,7 +163,7 @@ SIMPLE_JWT = {
 # import codecs
 # sys.stdout = codecs.getwriter('utf8')(sys.stdout)
 # sys.stderr = codecs.getwriter('utf8')(sys.stderr)
-# DEFAULT_CHARSET = 'utf-8'
+DEFAULT_CHARSET = 'utf-8'
 
 TIME_ZONE = 'Asia/Tashkent'
 LANGUAGE_CODE = 'en-us-ru'
