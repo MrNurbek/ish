@@ -2,6 +2,8 @@ from django.contrib import admin
 from .models import *
 
 
+# -*- coding: utf-8 -*-
+
 class FileInline(admin.TabularInline):
     model = File
 
