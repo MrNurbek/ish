@@ -160,9 +160,6 @@ SIMPLE_JWT = {
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANG = "en_US.UTF-8"
-LC_ALL = "en_US.UTF - 8"
-LC_LANG = "en_US.UTF-8"
 TIME_ZONE = 'Asia/Tashkent'
 LANGUAGE_CODE = 'en-us-ru'
 USE_I18N = True
@@ -179,7 +176,7 @@ LANGUAGES = [
 
 DATETIME_FORMAT = '%m/%d/%Y %H:%M'
 
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'en'
 
 # Static files (CSS, JavaScript, Images)

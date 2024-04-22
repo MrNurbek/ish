@@ -134,6 +134,59 @@ def register(request):
         }
         return Response(res)
 
+@api_view(['POST'])
+@permission_classes([AllowAny, ])
+def userlogin(request):
+    try:
+        email = request.data.get('email')
+        password = request.data.get('password')
+        if not login:
+            res = {
+                'msg': 'Login empty',
+                'status': 0,
+            }
+            return Response(res)
+
+        user = User.objects.filter(email=email).first()
+        if not user:
+            res = {
+                'msg': 'email or password wrond',
+                'status': 403,
+            }
+            return Response(res, status=status.HTTP_403_FORBIDDEN)
+
+        if user and user.check_password(password):
+            if user.complete == 0:
+                res = {
+                    'msg': 'email sms code not check',
+                    'status': 0,
+                }
+                return Response(res)
+            token = RefreshToken.for_user(user)
+            result = {
+
+                'user': UserSerializer(user, many=False, context={"request": request}).data,
+                'access': str(token.access_token),
+                'refresh': str(token),
+
+            }
+            user.save()
+            return Response(result, status=status.HTTP_200_OK)
+        else:
+            res = {
+                'status': 0,
+                'msg': 'Can not authenticate with the given credentials or the account has been deactivated'
+            }
+            return Response(res, status=status.HTTP_403_FORBIDDEN)
+    except KeyError:
+        res = {
+            'status': 0,
+            'msg': 'Please set all reqiured fields'
+        }
+
+        return Response(res)
+
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny, ])
