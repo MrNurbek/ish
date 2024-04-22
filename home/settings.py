@@ -177,7 +177,17 @@ LANGUAGES = [
     ("en", _("English")),
     ("ru", _("Russian")),
 ]
-
+PARLER_LANGUAGES = {
+    None: (
+        {'code': 'ru'},
+        {'code': 'en'},
+        {'code': 'uz'},
+    ),
+    'default': {
+        'fallbacks': ['ru', 'en', 'uz'],
+        'hide_untranslated': False,
+    }
+}
 DATETIME_FORMAT = '%m/%d/%Y %H:%M'
 
 # Static files (CSS, JavaScript, Images)
