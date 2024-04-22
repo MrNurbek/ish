@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -157,16 +158,6 @@ SIMPLE_JWT = {
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us-ru'
-DATETIME_FORMAT = '%m/%d/%Y %H:%M'
-gettext = lambda s: s
-LANGUAGES = (
-    ('ru', gettext('Russian')),
-    ('en', gettext('English')),
-)
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
-MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'en'
-
 
 TIME_ZONE = 'Asia/Tashkent'
 
@@ -175,6 +166,16 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+LANGUAGE_CODE = 'en-us-ru'
+DATETIME_FORMAT = '%m/%d/%Y %H:%M'
+
+LANGUAGES = (
+    ('ru', _('Russian')),
+    ('en', _('English')),
+)
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'en'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
