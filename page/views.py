@@ -411,6 +411,7 @@ def post_message(request):
         text = request.data['text']
         end_time = request.data['end_time']
         for x in user:
+            print(x, 'ssssssssssssssssssssssss')
             user1 = User.objects.filter(id=x)
             message = Message.objects.create(
                 # user=request.user,

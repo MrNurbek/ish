@@ -36,7 +36,7 @@ def send_firebase_message(firebase_token, title, body):
 
 # firebase_token = 'crIcQxyF1U_kToJXqRnK6L:APA91bFTzEd4xWGVm3KYANb0zFxecHHiKS41nfSPRVYqdVIX5xUi_hhcYRWj8JeBmCPBZUBxgabUPrGnmoNLR2IiXjmgxh51iOK4eGSnTvOo5KnDTJomLX2QKBze3XkCZrx4wNTZU25c'
 # firebase_token = 'cTac_K0sQAuupIAM-AES87:APA91bGjMPhVruYx7odJpzLpc0HafmCEvPGLPVyKlLMo7u8Z4DRKQo_wWkAqW05aLxvkVyjHE88hk3WOn7m3nDIbY-kpObsJGN61CCIY4k79OkMKK_bmYscj1-F3UkosIeE2e7_oUuYo'
-# firebase_token = 'fJAwTTIhDdcjXOnvwsBvVj:APA91bHDSPhqdXhIl9PIg5Aw_JzU5OtRvZHhMMt3sULrCI0o9sFIYzchQzQLnTTqjRCzr-K0--vYKlMq8R6dfK49lGRaeG6mX6gey_HddheGCeto8Sl7XVIhwL9bIusLmAmF4aSuC9b3'
+# firebase_token = 'crIcQxyF1U_kToJXqRnK6L:APA91bFTzEd4xWGVm3KYANb0zFxecHHiKS41nfSPRVYqdVIX5xUi_hhcYRWj8JeBmCPBZUBxgabUPrGnmoNLR2IiXjmgxh51iOK4eGSnTvOo5KnDTJomLX2QKBze3XkCZrx4wNTZU25c'
 # title = 'Yangi Xabar'
 # body = 'Bu sizning birinchi Firebase xabaringiz!'
 # response = send_firebase_message(firebase_token, title, body)

@@ -166,6 +166,12 @@ SIMPLE_JWT = {
 
 LANGUAGE_CODE = 'en-us'
 
+LANGUAGES = (
+    ('en', 'English'),
+    ('ru', 'Russian'),
+    ('uk', 'Ukrainian'),
+)
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
