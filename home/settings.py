@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-
+# coding: utf-8
 from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -160,10 +160,16 @@ SIMPLE_JWT = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
-import sys
-import codecs
-sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+# import sys
+# import codecs
+# sys.stdout = codecs.getwriter('utf8')(sys.stdout)
 # sys.stderr = codecs.getwriter('utf8')(sys.stderr)
+
+LANGUAGES = [
+    ("uz", _("Uzbek")),
+    ("en", _("English")),
+    ("ru", _("Russian")),
+]
 LANGUAGE_CODE = 'uz'
 DEFAULT_CHARSET = 'utf-8'
 
@@ -174,11 +180,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-LANGUAGES = [
-    ("uz", _("Uzbek")),
-    ("en", _("English")),
-    ("ru", _("Russian")),
-]
 PARLER_LANGUAGES = {
     None: (
         {'code': 'ru'},

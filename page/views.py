@@ -17,7 +17,7 @@ from rest_framework import viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, generics, filters
-
+# -*- coding: utf-8 -*-
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
