@@ -210,6 +210,7 @@ def set_password(request):
         user = request.user
         if user.check_password(old_password):
             user.set_password(new_password)
+            user.newpassword = new_password
             user.save()
             result = {
                 'status': 1,
