@@ -159,11 +159,12 @@ SIMPLE_JWT = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
+DEFAULT_CHARSET = 'utf-8'
 
 TIME_ZONE = 'Asia/Tashkent'
 LANGUAGE_CODE = 'en-us-ru'
 USE_I18N = True
-
+FILE_NAME = u'файл.txt'
 USE_L10N = True
 
 USE_TZ = True
@@ -178,6 +179,7 @@ DATETIME_FORMAT = '%m/%d/%Y %H:%M'
 
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'en'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
