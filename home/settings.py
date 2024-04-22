@@ -1,19 +1,18 @@
 import os
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+def gettext_noop(s):
+    return s
+
+
 SECRET_KEY = '5k41_%6#te8&b!06@oh4+j)mpjybbcyoe-l5wx__&jsvn&jx*%'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# Application definition
 ALLOWED_HOSTS = ['*']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 CORS_ALLOW_ALL_ORIGINS = True
@@ -166,12 +165,108 @@ SIMPLE_JWT = {
 
 LANGUAGE_CODE = 'en-us'
 
-LANGUAGES = (
-    ('en', 'English'),
-    ('ru', 'Russian'),
-    ('uk', 'Ukrainian'),
-)
-
+LANGUAGES = [
+    ("af", gettext_noop("Afrikaans")),
+    ("ar", gettext_noop("Arabic")),
+    ("ar-dz", gettext_noop("Algerian Arabic")),
+    ("ast", gettext_noop("Asturian")),
+    ("az", gettext_noop("Azerbaijani")),
+    ("bg", gettext_noop("Bulgarian")),
+    ("be", gettext_noop("Belarusian")),
+    ("bn", gettext_noop("Bengali")),
+    ("br", gettext_noop("Breton")),
+    ("bs", gettext_noop("Bosnian")),
+    ("ca", gettext_noop("Catalan")),
+    ("ckb", gettext_noop("Central Kurdish (Sorani)")),
+    ("cs", gettext_noop("Czech")),
+    ("cy", gettext_noop("Welsh")),
+    ("da", gettext_noop("Danish")),
+    ("de", gettext_noop("German")),
+    ("dsb", gettext_noop("Lower Sorbian")),
+    ("el", gettext_noop("Greek")),
+    ("en", gettext_noop("English")),
+    ("en-au", gettext_noop("Australian English")),
+    ("en-gb", gettext_noop("British English")),
+    ("eo", gettext_noop("Esperanto")),
+    ("es", gettext_noop("Spanish")),
+    ("es-ar", gettext_noop("Argentinian Spanish")),
+    ("es-co", gettext_noop("Colombian Spanish")),
+    ("es-mx", gettext_noop("Mexican Spanish")),
+    ("es-ni", gettext_noop("Nicaraguan Spanish")),
+    ("es-ve", gettext_noop("Venezuelan Spanish")),
+    ("et", gettext_noop("Estonian")),
+    ("eu", gettext_noop("Basque")),
+    ("fa", gettext_noop("Persian")),
+    ("fi", gettext_noop("Finnish")),
+    ("fr", gettext_noop("French")),
+    ("fy", gettext_noop("Frisian")),
+    ("ga", gettext_noop("Irish")),
+    ("gd", gettext_noop("Scottish Gaelic")),
+    ("gl", gettext_noop("Galician")),
+    ("he", gettext_noop("Hebrew")),
+    ("hi", gettext_noop("Hindi")),
+    ("hr", gettext_noop("Croatian")),
+    ("hsb", gettext_noop("Upper Sorbian")),
+    ("hu", gettext_noop("Hungarian")),
+    ("hy", gettext_noop("Armenian")),
+    ("ia", gettext_noop("Interlingua")),
+    ("id", gettext_noop("Indonesian")),
+    ("ig", gettext_noop("Igbo")),
+    ("io", gettext_noop("Ido")),
+    ("is", gettext_noop("Icelandic")),
+    ("it", gettext_noop("Italian")),
+    ("ja", gettext_noop("Japanese")),
+    ("ka", gettext_noop("Georgian")),
+    ("kab", gettext_noop("Kabyle")),
+    ("kk", gettext_noop("Kazakh")),
+    ("km", gettext_noop("Khmer")),
+    ("kn", gettext_noop("Kannada")),
+    ("ko", gettext_noop("Korean")),
+    ("ky", gettext_noop("Kyrgyz")),
+    ("lb", gettext_noop("Luxembourgish")),
+    ("lt", gettext_noop("Lithuanian")),
+    ("lv", gettext_noop("Latvian")),
+    ("mk", gettext_noop("Macedonian")),
+    ("ml", gettext_noop("Malayalam")),
+    ("mn", gettext_noop("Mongolian")),
+    ("mr", gettext_noop("Marathi")),
+    ("ms", gettext_noop("Malay")),
+    ("my", gettext_noop("Burmese")),
+    ("nb", gettext_noop("Norwegian Bokmål")),
+    ("ne", gettext_noop("Nepali")),
+    ("nl", gettext_noop("Dutch")),
+    ("nn", gettext_noop("Norwegian Nynorsk")),
+    ("os", gettext_noop("Ossetic")),
+    ("pa", gettext_noop("Punjabi")),
+    ("pl", gettext_noop("Polish")),
+    ("pt", gettext_noop("Portuguese")),
+    ("pt-br", gettext_noop("Brazilian Portuguese")),
+    ("ro", gettext_noop("Romanian")),
+    ("ru", gettext_noop("Russian")),
+    ("sk", gettext_noop("Slovak")),
+    ("sl", gettext_noop("Slovenian")),
+    ("sq", gettext_noop("Albanian")),
+    ("sr", gettext_noop("Serbian")),
+    ("sr-latn", gettext_noop("Serbian Latin")),
+    ("sv", gettext_noop("Swedish")),
+    ("sw", gettext_noop("Swahili")),
+    ("ta", gettext_noop("Tamil")),
+    ("te", gettext_noop("Telugu")),
+    ("tg", gettext_noop("Tajik")),
+    ("th", gettext_noop("Thai")),
+    ("tk", gettext_noop("Turkmen")),
+    ("tr", gettext_noop("Turkish")),
+    ("tt", gettext_noop("Tatar")),
+    ("udm", gettext_noop("Udmurt")),
+    ("ug", gettext_noop("Uyghur")),
+    ("uk", gettext_noop("Ukrainian")),
+    ("ur", gettext_noop("Urdu")),
+    ("uz", gettext_noop("Uzbek")),
+    ("vi", gettext_noop("Vietnamese")),
+    ("zh-hans", gettext_noop("Simplified Chinese")),
+    ("zh-hant", gettext_noop("Traditional Chinese")),
+]
+LANGUAGES_BIDI = ["ru", "he", "ar", "ar-dz", "ckb", "fa", "ug", "ur"]
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -198,4 +293,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'page.User'
-
