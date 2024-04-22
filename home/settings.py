@@ -43,11 +43,12 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+
 ]
 
 ROOT_URLCONF = 'home.urls'
@@ -159,9 +160,9 @@ SIMPLE_JWT = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
-# import sys
-# import codecs
-# sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+import sys
+import codecs
+sys.stdout = codecs.getwriter('utf8')(sys.stdout)
 # sys.stderr = codecs.getwriter('utf8')(sys.stderr)
 LANGUAGE_CODE = 'uz'
 DEFAULT_CHARSET = 'utf-8'
