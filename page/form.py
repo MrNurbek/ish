@@ -1,8 +1,10 @@
 from django import forms
 from django.db import models
 
+
 class PasswordField(forms.CharField):
     widget = forms.PasswordInput
+
 
 class PasswordModelField(models.CharField):
 

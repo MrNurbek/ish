@@ -8,6 +8,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from datetime import date
 import hashlib
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 def get_avatar(instems, file):
@@ -24,7 +25,7 @@ class RandomFileName:
         self.sub_path = sub_path
 
     def __call__(self, instance, filename):
-        return os.path.join('images', self.sub_path, str(uuid.uuid4()), filename)
+        return os.path.join('images', self.sub_path, str(uuid.uuid4()) + '.' + filename.split('.')[-1])
 
 
 class User(AbstractUser):
@@ -44,6 +45,12 @@ class User(AbstractUser):
 
     class Meta:
         ordering = ['-id']
+
+    # def save(self, *args, **kwargs):
+    #     print('sssssssssssssssssssssssssssssssssssssss')
+    #     if self.pk is None and self.image:
+    #         self.image.name = str(uuid.uuid4()) + '.' + self.image.name.split('.')[-1]
+    #     super().save(*args, **kwargs)
 
     def __str__(self):
         return self.email
