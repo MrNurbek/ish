@@ -28,6 +28,24 @@ class RandomFileName:
         return os.path.join('images', self.sub_path, str(uuid.uuid4()) + '.' + filename.split('.')[-1])
 
 
+@deconstructible
+class RandomFileNameFile:
+    def __init__(self, sub_path=''):
+        self.sub_path = sub_path
+
+    def __call__(self, instance, filename):
+        return os.path.join('file', self.sub_path, str(uuid.uuid4()) + '.' + filename.split('.')[-1])
+
+
+@deconstructible
+class RandomFileNameFileEmployee:
+    def __init__(self, sub_path=''):
+        self.sub_path = sub_path
+
+    def __call__(self, instance, filename):
+        return os.path.join('fileemployee', self.sub_path, str(uuid.uuid4()) + '.' + filename.split('.')[-1])
+
+
 class User(AbstractUser):
     username = models.CharField(max_length=50, blank=True, null=True, unique=False)
     last_name = models.CharField(max_length=50, blank=True, null=True, unique=False)
@@ -129,7 +147,7 @@ class Notification(models.Model):
 
 
 class File(models.Model):
-    file = models.FileField(upload_to="messagefile", null=True, blank=True)
+    file = models.FileField(upload_to=RandomFileNameFile('File'), null=True, blank=True)
     message = models.ForeignKey(Message, related_name='message', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
@@ -137,7 +155,7 @@ class File(models.Model):
 
 
 class File_employee(models.Model):
-    file = models.FileField(upload_to="employeemessagefile", null=True, blank=True, default=None)
+    file = models.FileField(upload_to=RandomFileNameFileEmployee('File_employee'), null=True, blank=True, default=None)
     message = models.ForeignKey(Message, related_name='message_employee', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
