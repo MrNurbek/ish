@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
+import urllib
+import uuid
+from django.utils.deconstruct import deconstructible
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from datetime import date
@@ -13,6 +18,15 @@ def get_file(instems, file):
     return "messagefile/%s" % (file)
 
 
+@deconstructible
+class RandomFileName:
+    def __init__(self, sub_path=''):
+        self.sub_path = sub_path
+
+    def __call__(self, instance, filename):
+        return os.path.join('images', self.sub_path, str(uuid.uuid4()), filename)
+
+
 class User(AbstractUser):
     username = models.CharField(max_length=50, blank=True, null=True, unique=False)
     last_name = models.CharField(max_length=50, blank=True, null=True, unique=False)
@@ -21,7 +35,7 @@ class User(AbstractUser):
     email = models.EmailField(('email address'), unique=True, null=False)
     phone_no = models.CharField(max_length=20)
     newpassword = models.CharField(max_length=20, null=True, blank=True)
-    image = models.ImageField(upload_to='userimg', default='users/default.png')
+    image = models.ImageField(upload_to=RandomFileName('User'), default='users/default.png')
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'last_name']
     complete = models.IntegerField(default=1)
@@ -30,14 +44,6 @@ class User(AbstractUser):
 
     class Meta:
         ordering = ['-id']
-
-    def save(self, *args, **kwargs):
-        if not self.pk:  # file is new
-            md5 = hashlib.md5()
-            for chunk in self.image.chunks():
-                md5.update(chunk)
-            self.md5sum = md5.hexdigest()
-        super(User, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.email
