@@ -27,7 +27,7 @@ class FileEmployeeAdmin(admin.ModelAdmin):
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'email', 'username', 'is_staff', 'last_name', 'password', 'unvoni', 'xonasi')
+    list_display = ('id', 'email', 'username', 'is_staff', 'last_name', 'password', 'unvoni', 'xonasi','image')
 
 
 class MessageAdmin(admin.ModelAdmin):
