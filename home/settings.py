@@ -171,7 +171,7 @@ LANGUAGES = [
     ("ru", _("Russian")),
 ]
 LANGUAGE_CODE = 'uz'
-DEFAULT_CHARSET = 'utf-18'
+DEFAULT_CHARSET = 'utf-16'
 
 TIME_ZONE = 'Asia/Tashkent'
 
