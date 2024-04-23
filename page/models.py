@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from datetime import date
+import hashlib
 
 
 def get_avatar(instems, file):
@@ -30,7 +31,13 @@ class User(AbstractUser):
     class Meta:
         ordering = ['-id']
 
-
+    def save(self, *args, **kwargs):
+        if not self.pk:  # file is new
+            md5 = hashlib.md5()
+            for chunk in self.image.chunks():
+                md5.update(chunk)
+            self.md5sum = md5.hexdigest()
+        super(User, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.email
@@ -122,6 +129,3 @@ class File_employee(models.Model):
 
     def __str__(self):
         return self.message.user.email
-
-
-
