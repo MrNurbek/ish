@@ -64,11 +64,6 @@ class User(AbstractUser):
     class Meta:
         ordering = ['-id']
 
-    # def save(self, *args, **kwargs):
-    #     print('sssssssssssssssssssssssssssssssssssssss')
-    #     if self.pk is None and self.image:
-    #         self.image.name = str(uuid.uuid4()) + '.' + self.image.name.split('.')[-1]
-    #     super().save(*args, **kwargs)
 
     def __str__(self):
         return self.email
