@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.utils.text import gettext_lazy as _
 from rest_framework import serializers
 from page.models import User, Message, File, AllNotification, File_employee
