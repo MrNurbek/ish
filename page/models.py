@@ -46,6 +46,15 @@ class RandomFileNameFileEmployee:
         return os.path.join('fileemployee', self.sub_path, str(uuid.uuid4()) + '.' + filename.split('.')[-1])
 
 
+@deconstructible
+class RandomFileNameKorxona:
+    def __init__(self, sub_path=''):
+        self.sub_path = sub_path
+
+    def __call__(self, instance, filename):
+        return os.path.join('korxonaicon', self.sub_path, str(uuid.uuid4()) + '.' + filename.split('.')[-1])
+
+
 class User(AbstractUser):
     username = models.CharField(max_length=50, blank=True, null=True, unique=False)
     last_name = models.CharField(max_length=50, blank=True, null=True, unique=False)
@@ -61,7 +70,6 @@ class User(AbstractUser):
     unvoni = models.CharField(max_length=128, blank=True, null=True)
     xonasi = models.CharField(max_length=128, blank=True, null=True)
     superuser = models.BooleanField(default=False)
-
 
     class Meta:
         ordering = ['-id']
@@ -97,7 +105,6 @@ class Message(models.Model):
     created_user = models.IntegerField(default=0)
     done = models.IntegerField(default=0)
     failed = models.IntegerField(default=0)
-
 
     @property
     def state(self):
@@ -157,3 +164,38 @@ class File_employee(models.Model):
 
     def __str__(self):
         return self.message.user.email
+
+
+class Korxona(models.Model):
+    name = models.CharField(max_length=50, blank=True, null=True, unique=False)
+    icon = models.FileField(upload_to=RandomFileNameKorxona('Korxona'), null=True, blank=True, default=None)
+
+    def __str__(self):
+        return self.name
+
+
+class FoydaliLinklar(models.Model):
+    korxona = models.ForeignKey(Korxona, on_delete=models.CASCADE, related_name="foydalilink")
+    name = models.CharField(max_length=50, blank=True, null=True, unique=False)
+    link = models.CharField(max_length=50, blank=True, null=True, unique=False)
+
+    def __str__(self):
+        return self.name
+
+
+class IjtimoiyTarmoq(models.Model):
+    korxona = models.ForeignKey(Korxona, on_delete=models.CASCADE, related_name="ijtimoiytarmoq")
+    name = models.CharField(max_length=50, blank=True, null=True, unique=False)
+    link = models.CharField(max_length=50, blank=True, null=True, unique=False)
+
+    def __str__(self):
+        return self.name
+
+
+class Adress(models.Model):
+    korxona = models.ForeignKey(Korxona, on_delete=models.CASCADE, related_name="adress")
+    lot = models.CharField(max_length=60, blank=True, null=True, unique=False)
+    lan = models.CharField(max_length=60, blank=True, null=True, unique=False)
+
+    def __str__(self):
+        return self.korxona.name

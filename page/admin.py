@@ -7,6 +7,18 @@ class FileInline(admin.TabularInline):
     model = File
 
 
+class FoydaliLinklarInline(admin.TabularInline):
+    model = FoydaliLinklar
+
+
+class IjtimoiyTarmoqInline(admin.TabularInline):
+    model = IjtimoiyTarmoq
+
+
+class AdressTarmoqInline(admin.TabularInline):
+    model = Adress
+
+
 class FileEmployeeInline(admin.TabularInline):
     model = File_employee
 
@@ -38,8 +50,17 @@ class AllNotificationAdmin(admin.ModelAdmin):
     list_display = ('id', 'title')
 
 
+class KorxonaAdmin(admin.ModelAdmin):
+    list_display = ('name', 'icon')
+    inlines = [FoydaliLinklarInline, IjtimoiyTarmoqInline, AdressTarmoqInline]
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Message, MessageAdmin)
 admin.site.register(File, FileAdmin)
 admin.site.register(File_employee, FileEmployeeAdmin)
 admin.site.register(AllNotification, AllNotificationAdmin)
+admin.site.register(Korxona, KorxonaAdmin)
+admin.site.register(FoydaliLinklar)
+admin.site.register(IjtimoiyTarmoq)
+admin.site.register(Adress)
