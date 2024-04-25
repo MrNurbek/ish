@@ -23,6 +23,7 @@ router.register(r'message', MessageDetailView),
 router.register(r'messagepost', MessageDetailPostViewID),
 router.register(r'notification', GetAllMessageViewSet),
 router.register(r'get_users', GetUsersViewSet),
+router.register(r'users_statistics', GetUsersStatisticsViewSet),
 
 urlpatterns = [
     path('auth/', include('rest_auth.urls')),

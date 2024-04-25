@@ -87,6 +87,39 @@ class GetUsersSerializer(serializers.ModelSerializer):
                   'is_staff']
 
 
+class GetUsersStatisticsSerializer(serializers.ModelSerializer):
+    yuborildi = serializers.SerializerMethodField()
+    qabulqildi = serializers.SerializerMethodField()
+    bajarildi = serializers.SerializerMethodField()
+    kechikibbajarildi = serializers.SerializerMethodField()
+    bajarilmadi = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ['id', "last_name", 'username', 'image', 'phone_no', 'unvoni',
+                  'yuborildi', 'qabulqildi', 'bajarildi', 'kechikibbajarildi', 'bajarilmadi']
+
+    def get_yuborildi(self, obj):
+        message = Message.objects.filter(user=obj, status='yuborildi').count()
+        return message
+
+    def get_qabulqildi(self, obj):
+        message = Message.objects.filter(user=obj, status='qabulqildi').count()
+        return message
+
+    def get_bajarildi(self, obj):
+        message = Message.objects.filter(user=obj, status='bajarildi').count()
+        return message
+
+    def get_kechikibbajarildi(self, obj):
+        message = Message.objects.filter(user=obj, status='kechikibbajarildi').count()
+        return message
+
+    def get_bajarilmadi(self, obj):
+        message = Message.objects.filter(user=obj, status='bajarilmadi').count()
+        return message
+
+
 class ProfilSerializerAll(serializers.ModelSerializer):
     class Meta:
         model = User

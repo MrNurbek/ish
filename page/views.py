@@ -8,10 +8,7 @@ from page.filters import MessageFilter, UserFilter, MessageFilter1
 from .models import *
 from rest_framework_jwt.settings import api_settings
 from page.pagination import LargeResultsSetPagination
-from page.serializers import UserSerializer, CustomuserSerializer, CustomuserSerializer2, ProfilSerializer, \
-    ProfilSerializerAll, PostMessageSerializer, GetMessageSerializerAll, GetMessageSerializerAll2, ProfilSerializerMe, \
-    CustomuserSerializer3, GetUsersSerializer, GetMessageSerializerAll3, FileSerializer, LogoutSerializer, \
-    GetAllMessageSerializer, UserArraySerializer, CustomuserSerializer4
+from page.serializers import *
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework import generics, mixins
 from rest_framework import viewsets
@@ -568,3 +565,18 @@ class GetUsersViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.Gene
     def get_queryset(self):
         queryset = User.objects.filter(~Q(id=self.request.user.id))
         return queryset
+
+
+class GetUsersStatisticsViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = GetUsersStatisticsSerializer
+    permission_classes = [IsAdminUser]
+    queryset = User.objects.order_by('-id').all()
+    filterset_class = UserFilter
+    pagination_class = LargeResultsSetPagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+
+    # filterset_fields = ['user']
+    # search_fields = ['user']
+    # def get_queryset(self):
+    #     queryset = User.objects.filter(~Q(id=self.request.user.id))
+    #     return queryset

@@ -64,7 +64,6 @@ class User(AbstractUser):
     class Meta:
         ordering = ['-id']
 
-
     def __str__(self):
         return self.email
 
