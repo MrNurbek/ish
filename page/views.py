@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from django_filters import rest_framework
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import permissions
+
 from firebasesdkadmin import send_firebase_message
 from page.filters import MessageFilter, UserFilter, MessageFilter1
 from .models import *
@@ -15,6 +17,7 @@ from rest_framework import viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, generics, filters
+
 # -*- coding: utf-8 -*-
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -132,6 +135,7 @@ def register(request):
         }
         return Response(res)
 
+
 @api_view(['POST'])
 @permission_classes([AllowAny, ])
 def userlogin(request):
@@ -183,7 +187,6 @@ def userlogin(request):
         }
 
         return Response(res)
-
 
 
 @api_view(['POST'])
@@ -567,16 +570,16 @@ class GetUsersViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.Gene
         return queryset
 
 
+class IsSuperUser(IsAdminUser):
+    def has_permission(self, request, view):
+        return bool(request.user and request.user.is_superuser)
+
+
 class GetUsersStatisticsViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = GetUsersStatisticsSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsSuperUser]
     queryset = User.objects.order_by('-id').all()
     filterset_class = UserFilter
     pagination_class = LargeResultsSetPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
 
-    # filterset_fields = ['user']
-    # search_fields = ['user']
-    # def get_queryset(self):
-    #     queryset = User.objects.filter(~Q(id=self.request.user.id))
-    #     return queryset

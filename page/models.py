@@ -61,6 +61,7 @@ class User(AbstractUser):
     unvoni = models.CharField(max_length=128, blank=True, null=True)
     xonasi = models.CharField(max_length=128, blank=True, null=True)
 
+
     class Meta:
         ordering = ['-id']
 
@@ -95,6 +96,7 @@ class Message(models.Model):
     created_user = models.IntegerField(default=0)
     done = models.IntegerField(default=0)
     failed = models.IntegerField(default=0)
+
 
     @property
     def state(self):
