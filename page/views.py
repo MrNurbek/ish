@@ -583,3 +583,13 @@ class GetUsersStatisticsViewSet(generics.ListAPIView, mixins.ListModelMixin, vie
     pagination_class = LargeResultsSetPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
 
+
+class GetKorxonaViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = KorxonaSerializer
+    permission_classes = [AllowAny]
+    queryset = Korxona.objects.order_by('-id').all()
+    # filterset_class = MessageFilter
+    pagination_class = LargeResultsSetPagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+
+

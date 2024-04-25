@@ -51,7 +51,7 @@ class AllNotificationAdmin(admin.ModelAdmin):
 
 
 class KorxonaAdmin(admin.ModelAdmin):
-    list_display = ('name', 'icon')
+    list_display = ('id', 'name', 'icon')
     inlines = [FoydaliLinklarInline, IjtimoiyTarmoqInline, AdressTarmoqInline]
 
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.utils.text import gettext_lazy as _
 from rest_framework import serializers
-from page.models import User, Message, File, AllNotification, File_employee
+from page.models import *
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib import auth
@@ -274,3 +274,43 @@ class LogoutSerializer(serializers.Serializer):
 
 class UserArraySerializer(serializers.Serializer):
     user = serializers.ListField(child=serializers.IntegerField())
+
+
+class FoydalilinklarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FoydaliLinklar
+        fields = "__all__"
+
+
+class IjtimoiyTarmoqSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IjtimoiyTarmoq
+        fields = "__all__"
+
+
+class AdressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Adress
+        fields = "__all__"
+
+
+class KorxonaSerializer(serializers.ModelSerializer):
+    foydaliLinklar = serializers.SerializerMethodField()
+    ijtimoiytarmoq = serializers.SerializerMethodField()
+    adress = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Korxona
+        fields = ['id', 'name', 'icon', 'foydaliLinklar', 'ijtimoiytarmoq', 'adress', ]
+
+    def get_foydaliLinklar(self, obj):
+        foydaliLinklar = FoydaliLinklar.objects.filter(korxona=obj).all()
+        return FoydalilinklarSerializer(foydaliLinklar, many=True, context={'request': self.context['request']}).data
+
+    def get_ijtimoiytarmoq(self, obj):
+        ijtimoiytarmoq = IjtimoiyTarmoq.objects.filter(korxona=obj).all()
+        return IjtimoiyTarmoqSerializer(ijtimoiytarmoq, many=True, context={'request': self.context['request']}).data
+
+    def get_adress(self, obj):
+        adress = IjtimoiyTarmoq.objects.filter(korxona=obj).all()
+        return AdressSerializer(adress, many=True, context={'request': self.context['request']}).data

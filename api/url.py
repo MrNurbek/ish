@@ -24,6 +24,7 @@ router.register(r'messagepost', MessageDetailPostViewID),
 router.register(r'notification', GetAllMessageViewSet),
 router.register(r'get_users', GetUsersViewSet),
 router.register(r'users_statistics', GetUsersStatisticsViewSet),
+router.register(r'korxna', GetKorxonaViewSet),
 
 urlpatterns = [
     path('auth/', include('rest_auth.urls')),
