@@ -572,7 +572,7 @@ class GetUsersViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.Gene
 
 class IsSuperUser(IsAdminUser):
     def has_permission(self, request, view):
-        return bool(request.user and request.user.is_superuser)
+        return bool(request.user and request.user.superuser)
 
 
 class GetUsersStatisticsViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):

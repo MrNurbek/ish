@@ -60,6 +60,7 @@ class User(AbstractUser):
     complete = models.IntegerField(default=1)
     unvoni = models.CharField(max_length=128, blank=True, null=True)
     xonasi = models.CharField(max_length=128, blank=True, null=True)
+    superuser = models.BooleanField(default=False)
 
 
     class Meta:
