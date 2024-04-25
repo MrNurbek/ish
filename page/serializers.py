@@ -24,7 +24,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', "last_name", 'username', 'phone_no', 'image', 'is_staff', 'unvoni', 'xonasi']
+        fields = ['email', "last_name", 'username', 'phone_no', 'image', 'is_staff', 'unvoni', 'xonasi', 'superuser']
 
 
 class CustomuserSerializer(serializers.ModelSerializer):
@@ -77,14 +77,14 @@ class ProfilSerializerMe(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'email', "last_name", 'username', 'image', 'phone_no', 'unvoni', 'xonasi',
-                  'is_staff']
+                  'is_staff', 'superuser']
 
 
 class GetUsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'email', "last_name", 'username', 'image', 'phone_no', 'unvoni', 'xonasi',
-                  'is_staff']
+                  'is_staff', 'superuser']
 
 
 class GetUsersStatisticsSerializer(serializers.ModelSerializer):
@@ -97,7 +97,7 @@ class GetUsersStatisticsSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', "last_name", 'username', 'image', 'phone_no', 'unvoni',
-                  'yuborildi', 'qabulqildi', 'bajarildi', 'kechikibbajarildi', 'bajarilmadi']
+                  'yuborildi', 'qabulqildi', 'bajarildi', 'kechikibbajarildi', 'bajarilmadi', 'superuser']
 
     def get_yuborildi(self, obj):
         message = Message.objects.filter(user=obj, status='yuborildi').count()
