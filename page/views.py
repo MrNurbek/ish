@@ -627,8 +627,9 @@ def export_movies_to_xlsx(request):
     # Define the titles for columns
     columns = [
         'Raqami',
-        'username',
-        'last_name',
+        'Ismi',
+        'Familyasi',
+        'Sharifi',
         'yuborildi',
         'qabulqildi',
         'bajarildi',
@@ -659,6 +660,7 @@ def export_movies_to_xlsx(request):
             nomer,
             s.username,
             s.last_name,
+            s.patronymic_name,
             yuborildi,
             qabulqildi,
             bajarildi,
