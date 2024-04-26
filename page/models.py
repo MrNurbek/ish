@@ -58,6 +58,7 @@ class RandomFileNameKorxona:
 class User(AbstractUser):
     username = models.CharField(max_length=50, blank=True, null=True, unique=False)
     last_name = models.CharField(max_length=50, blank=True, null=True, unique=False)
+    patronymic_name = models.CharField(max_length=50, blank=True, null=True, unique=False)
     firebase_token = models.CharField(max_length=300, blank=True, null=True, unique=False,
                                       default='crIcQxyF1U_kToJXqRnK6L:APA91bFTzEd4xWGVm3KYANb0zFxecHHiKS41nfSPRVYqdVIX5xUi_hhcYRWj8JeBmCPBZUBxgabUPrGnmoNLR2IiXjmgxh51iOK4eGSnTvOo5KnDTJomLX2QKBze3XkCZrx4wNTZU25c')
     email = models.EmailField(('email address'), unique=True, null=False)

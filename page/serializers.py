@@ -42,7 +42,8 @@ class CustomuserSerializer2(serializers.ModelSerializer):
 class CustomuserSerializer3(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', "last_name", 'username', 'phone_no', 'image', 'password', 'complete', 'xonasi', 'unvoni',
+        fields = ['email', "last_name", 'username', 'patronymic_name', 'phone_no', 'image', 'password', 'complete',
+                  'xonasi', 'unvoni',
                   'is_staff', 'firebase_token']
 
     def create(self, validated_data):
@@ -76,14 +77,14 @@ class ProfilSerializer(serializers.ModelSerializer):
 class ProfilSerializerMe(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', "last_name", 'username', 'image', 'phone_no', 'unvoni', 'xonasi',
+        fields = ['id', 'email', "last_name", 'username', 'patronymic_name', 'image', 'phone_no', 'unvoni', 'xonasi',
                   'is_staff', 'superuser']
 
 
 class GetUsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', "last_name", 'username', 'image', 'phone_no', 'unvoni', 'xonasi',
+        fields = ['id', 'email', "last_name", 'username', 'patronymic_name', 'image', 'phone_no', 'unvoni', 'xonasi',
                   'is_staff', 'superuser']
 
 
@@ -96,7 +97,7 @@ class GetUsersStatisticsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', "last_name", 'username', 'image', 'phone_no', 'unvoni',
+        fields = ['id', "last_name", 'username', 'patronymic_name', 'image', 'phone_no', 'unvoni',
                   'yuborildi', 'qabulqildi', 'bajarildi', 'kechikibbajarildi', 'bajarilmadi', 'superuser']
 
     def get_yuborildi(self, obj):
@@ -190,13 +191,15 @@ class GetMessageSerializerAll2(serializers.ModelSerializer):
     file_employee = serializers.SerializerMethodField()
     adminusername = serializers.SerializerMethodField()
     adminlast_name = serializers.SerializerMethodField()
+    patronymic_name = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
     adminunvoni = serializers.SerializerMethodField()
 
     class Meta:
         model = Message
         fields = ['id', 'text', 'text_employee', 'user', 'user_id', 'user_email', 'user_xonasi', 'user_unvoni',
-                  'end_time', 'created_user', 'image', 'adminusername', 'adminlast_name', 'adminunvoni', 'file',
+                  'end_time', 'created_user', 'image', 'adminusername', 'adminlast_name', 'patronymic_name',
+                  'adminunvoni', 'file',
                   'file_employee']
 
     def get_image(self, obj):
@@ -206,6 +209,10 @@ class GetMessageSerializerAll2(serializers.ModelSerializer):
     def get_adminunvoni(self, obj):
         user = User.objects.filter(id=obj.created_user)
         return user.last().unvoni
+
+    def get_patronymic_name(self, obj):
+        user = User.objects.filter(id=obj.created_user)
+        return user.last().patronymic_name
 
     def get_adminusername(self, obj):
         user = User.objects.filter(id=obj.created_user)

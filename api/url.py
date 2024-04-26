@@ -5,15 +5,17 @@ from rest_framework import routers
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
+from page.views import *
+
 # -*- coding: utf-8 -*-
 schema_view = get_schema_view(
-   openapi.Info(
-      title="Test API",
-      default_version='v0.1',
-      description="Test APIs for dashboard",
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
+    openapi.Info(
+        title="Test API",
+        default_version='v0.1',
+        description="Test APIs for dashboard",
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
 )
 
 router = routers.DefaultRouter()
@@ -29,7 +31,6 @@ router.register(r'korxona', GetKorxonaViewSet),
 urlpatterns = [
     path('auth/', include('rest_auth.urls')),
     path('register_user/', register_user),
-    path('register', register),
     path('login', login),
     path('userlogin', userlogin),
     path('logout', LogoutView.as_view()),
@@ -39,6 +40,8 @@ urlpatterns = [
     path('updateFirebase_token', updateFirebase_token),
     path('post_message', post_message),
     path('user/<int:pk>/', UserDetailView.as_view(), name='user-profile'),
+    path('exel/', export_movies_to_xlsx)
+
     # path('profile/', views.getProfile,),
     # path('message/<int:pk>/', MessageDetailView.as_view(), name='message-detail'),
     # path('message', MessageDetailView.as_view(), name='message-detail'),

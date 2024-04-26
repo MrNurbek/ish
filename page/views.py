@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import openpyxl
 from django_filters import rest_framework
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
@@ -17,6 +18,8 @@ from rest_framework import viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, generics, filters
+from datetime import datetime
+from openpyxl import Workbook
 
 # -*- coding: utf-8 -*-
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -294,6 +297,7 @@ def profil(request):
 
         username = request.data.get('username', user.username)
         last_name = request.data.get('last_name', user.last_name)
+        patronymic_name = request.data.get('patronymic_name', user.patronymic_name)
         email = request.data.get('email', user.email)
         phone_no = request.data.get('phone_no', user.phone_no)
         image = request.data.get('image', user.image)
@@ -303,6 +307,7 @@ def profil(request):
 
         user.username = username
         user.last_name = last_name
+        user.patronymic_name = patronymic_name
         user.email = email
         user.phone_no = phone_no
         user.image = image
@@ -593,3 +598,79 @@ class GetKorxonaViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.Ge
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
 
 
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create your views here.
+import csv
+
+
+# Students name
+
+
+def export_movies_to_xlsx(request):
+    user_queryset = User.objects.all()
+
+
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    )
+    response['Content-Disposition'] = 'attachment; filename={date}-movies.xlsx'.format(
+        date=datetime.now().strftime('%Y-%m-%d'),
+    )
+    workbook = Workbook()
+
+    # Get active worksheet/tab
+    worksheet = workbook.active
+    worksheet.title = 'User'
+
+    # Define the titles for columns
+    columns = [
+        'Raqami',
+        'username',
+        'last_name',
+        'yuborildi',
+        'qabulqildi',
+        'bajarildi',
+        'kechikibbajarildi',
+        'bajarilmadi',
+
+    ]
+    row_num = 1
+
+    # Assign the titles for each cell of the header
+    for col_num, column_title in enumerate(columns, 1):
+        cell = worksheet.cell(row=row_num, column=col_num)
+        cell.value = column_title
+
+    # Iterate through all movies
+    nomer = 0
+    for s in user_queryset:
+        row_num += 1
+        nomer += 1
+        yuborildi = Message.objects.filter(user=s, status='yuborildi').count()
+        qabulqildi = Message.objects.filter(user=s, status='qabulqildi').count()
+        bajarildi = Message.objects.filter(user=s, status='bajarildi').count()
+        kechikibbajarildi = Message.objects.filter(user=s, status='kechikibbajarildi').count()
+        bajarilmadi = Message.objects.filter(user=s, status='bajarilmadi').count()
+
+        # Define the data for each cell in the row
+        row = [
+            nomer,
+            s.username,
+            s.last_name,
+            yuborildi,
+            qabulqildi,
+            bajarildi,
+            kechikibbajarildi,
+            bajarilmadi
+
+        ]
+
+        for col_num, cell_value in enumerate(row, 1):
+            cell = worksheet.cell(row=row_num, column=col_num)
+            cell.value = cell_value
+
+    workbook.save(response)
+
+    return response
