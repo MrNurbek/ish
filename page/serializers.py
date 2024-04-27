@@ -82,10 +82,17 @@ class ProfilSerializerMe(serializers.ModelSerializer):
 
 
 class GetUsersSerializer(serializers.ModelSerializer):
+    bajarilmadi = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = ['id', 'email', "last_name", 'username', 'patronymic_name', 'image', 'phone_no', 'unvoni', 'xonasi',
+                  'bajarilmadi',
                   'is_staff', 'superuser']
+
+    def get_bajarilmadi(self, obj):
+        message = Message.objects.filter(user=obj, status='bajarilmadi').count()
+        return message
 
 
 class GetUsersStatisticsSerializer(serializers.ModelSerializer):
