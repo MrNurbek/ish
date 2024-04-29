@@ -25,6 +25,7 @@ router.register(r'message', MessageDetailView),
 router.register(r'messagepost', MessageDetailPostViewID),
 router.register(r'notification', GetAllMessageViewSet),
 router.register(r'get_users', GetUsersViewSet),
+router.register(r'users_statistics', GetUsersStatisticsViewSet),
 router.register(r'korxona', GetKorxonaViewSet),
 
 urlpatterns = [
