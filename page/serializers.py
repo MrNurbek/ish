@@ -128,6 +128,45 @@ class GetUsersStatisticsSerializer(serializers.ModelSerializer):
         return message
 
 
+class UsersStatisticsSerializer(serializers.ModelSerializer):
+    yuborildi = serializers.SerializerMethodField()
+    qabulqildi = serializers.SerializerMethodField()
+    bajarildi = serializers.SerializerMethodField()
+    kechikibbajarildi = serializers.SerializerMethodField()
+    bajarilmadi = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ['id', "last_name", 'username', 'patronymic_name', 'yuborildi', 'qabulqildi', 'bajarildi',
+                  'kechikibbajarildi', 'bajarilmadi']
+
+    def get_yuborildi(self, obj):
+        request = self.context['request']
+        message = Message.objects.filter(user=obj, created_user=request.user.id, status='yuborildi').count()
+        return message
+
+    #
+    def get_qabulqildi(self, obj):
+        request = self.context['request']
+        message = Message.objects.filter(user=obj, created_user=request.user.id, status='qabulqildi').count()
+        return message
+
+    def get_bajarildi(self, obj):
+        request = self.context['request']
+        message = Message.objects.filter(user=obj, created_user=request.user.id, status='bajarildi').count()
+        return message
+
+    def get_kechikibbajarildi(self, obj):
+        request = self.context['request']
+        message = Message.objects.filter(user=obj, created_user=request.user.id, status='kechikibbajarildi').count()
+        return message
+
+    def get_bajarilmadi(self, obj):
+        request = self.context['request']
+        message = Message.objects.filter(user=obj, created_user=request.user.id, status='bajarilmadi').count()
+        return message
+
+
 class ProfilSerializerAll(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -328,5 +367,3 @@ class KorxonaSerializer(serializers.ModelSerializer):
     def get_adress(self, obj):
         adress = IjtimoiyTarmoq.objects.filter(korxona=obj).all()
         return AdressSerializer(adress, many=True, context={'request': self.context['request']}).data
-
-

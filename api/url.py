@@ -26,6 +26,7 @@ router.register(r'messagepost', MessageDetailPostViewID),
 router.register(r'notification', GetAllMessageViewSet),
 router.register(r'get_users', GetUsersViewSet),
 router.register(r'users_statistics', GetUsersStatisticsViewSet),
+router.register(r'solo_statistics', UsersStatisticsViewSet),
 router.register(r'korxona', GetKorxonaViewSet),
 
 urlpatterns = [
@@ -40,7 +41,8 @@ urlpatterns = [
     path('updateFirebase_token', updateFirebase_token),
     path('post_message', post_message),
     path('user/<int:pk>/', UserDetailView.as_view(), name='user-profile'),
-    path('exel/', export_movies_to_xlsx)
+    path('exel/', export_movies_to_xlsx),
+    path('solo_exel/', solo_export_movies_to_xlsx)
 
     # path('profile/', views.getProfile,),
     # path('message/<int:pk>/', MessageDetailView.as_view(), name='message-detail'),
