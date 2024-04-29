@@ -20,7 +20,8 @@ class MessageFilter1(django_filters.FilterSet):
 
 class UserFilter(django_filters.FilterSet):
     user = django_filters.ModelChoiceFilter(queryset=User.objects.all())
+    id = django_filters.AllValuesMultipleFilter(label='id')
 
     class Meta:
         model = User
-        fields = ['username']
+        fields = ['username', 'id']

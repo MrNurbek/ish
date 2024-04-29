@@ -328,3 +328,5 @@ class KorxonaSerializer(serializers.ModelSerializer):
     def get_adress(self, obj):
         adress = IjtimoiyTarmoq.objects.filter(korxona=obj).all()
         return AdressSerializer(adress, many=True, context={'request': self.context['request']}).data
+
+

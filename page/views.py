@@ -423,7 +423,6 @@ class MessageDetailView(generics.ListAPIView, mixins.ListModelMixin, viewsets.Ge
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
 
     def get_queryset(self):
-        # queryset = Message.objects.filter(user_id=self.request.user.id, id=kwargs['pk'])
         queryset = Message.objects.filter(user_id=self.request.user.id, id=self.request.GET['id'])
 
         for x in queryset:
@@ -570,6 +569,8 @@ class GetUsersViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.Gene
 
     # filterset_fields = ['user']
     # search_fields = ['user']
+
+
     def get_queryset(self):
         queryset = User.objects.filter(~Q(id=self.request.user.id))
         return queryset
@@ -610,7 +611,6 @@ import csv
 
 def export_movies_to_xlsx(request):
     user_queryset = User.objects.all()
-
 
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
