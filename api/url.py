@@ -42,12 +42,7 @@ urlpatterns = [
     path('post_message', post_message),
     path('user/<int:pk>/', UserDetailView.as_view(), name='user-profile'),
     path('exel/', export_movies_to_xlsx),
-    path('solo_exel/', solo_export_movies_to_xlsx)
-
-    # path('profile/', views.getProfile,),
-    # path('message/<int:pk>/', MessageDetailView.as_view(), name='message-detail'),
-    # path('message', MessageDetailView.as_view(), name='message-detail'),
-    # path('messagepost/<int:pk>/', MessageDetailPostViewID.as_view(), name='message-detailid'),
-
+    path('solo_exel/', solo_export_movies_to_xlsx),
+    path('all_statistics', StatisticsAll.as_view(),)
 ]
 urlpatterns += router.urls

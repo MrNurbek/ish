@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import permissions
-
+from rest_framework.views import APIView
 from firebasesdkadmin import send_firebase_message
 from page.filters import MessageFilter, UserFilter, MessageFilter1
 from .models import *
@@ -587,6 +587,32 @@ class GetUsersStatisticsViewSet(generics.ListAPIView, mixins.ListModelMixin, vie
     filterset_class = UserFilter
     pagination_class = LargeResultsSetPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+
+
+from django.db.models import Q, Count
+
+
+
+
+
+class StatisticsAll(APIView):
+    permission_classes = [IsSuperUser]  # policy attribute
+
+    def get(self, request):
+        yuborildi = Message.objects.filter(status='yuborildi').count()
+        qabulqildi = Message.objects.filter(status='qabulqildi').count()
+        bajarildi = Message.objects.filter(status='bajarildi').count()
+        kechikibbajarildi = Message.objects.filter(status='kechikibbajarildi').count()
+        bajarilmadi = Message.objects.filter(status='bajarilmadi').count()
+        content = {
+            'yuborildi': yuborildi,
+            'qabulqildi': qabulqildi,
+            'bajarildi': bajarildi,
+            'kechikibbajarildi': kechikibbajarildi,
+            'bajarilmadi': bajarilmadi,
+        }
+
+        return Response(content)
 
 
 class UsersStatisticsViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
