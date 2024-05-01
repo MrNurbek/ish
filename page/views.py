@@ -634,11 +634,8 @@ class GetUsersViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.Gene
     pagination_class = LargeResultsSetPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
 
-    # filterset_fields = ['user']
-    # search_fields = ['user']
-
     def get_queryset(self):
-        queryset = User.objects.filter(~Q(id=self.request.user.id))
+        queryset = User.objects.filter(~Q(id=self.request.user.id), ~Q(id=1))
         return queryset
 
 
