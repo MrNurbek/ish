@@ -123,6 +123,21 @@ class Message(models.Model):
         return self.user.username
 
 
+class MalumotUchun(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="message12")
+    text = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    read_time = models.DateTimeField(auto_now=False, null=True)
+    confirm_at = models.DateTimeField(auto_now=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    created_user = models.IntegerField(default=0)
+    done = models.IntegerField(default=0)
+    failed = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.user.username
+
+
 class AllNotification(models.Model):
     title = models.TextField(null=True, blank=True)
     text = models.TextField(null=True, blank=True)
@@ -153,10 +168,15 @@ class Notification(models.Model):
 
 class File(models.Model):
     file = models.FileField(upload_to=RandomFileNameFile('File'), null=True, blank=True)
-    message = models.ForeignKey(Message, related_name='message', on_delete=models.CASCADE, null=True)
+    message = models.ForeignKey(Message, related_name='message', on_delete=models.CASCADE, null=True, blank=True)
+    malumotuchun = models.ForeignKey(MalumotUchun, related_name='malumotucun', on_delete=models.CASCADE, null=True,
+                                     blank=True)
 
     def __str__(self):
-        return self.message.user.email
+        if self.message:
+            return f"{self.message.user.email}'s profile"
+        else:
+            return f"{self.malumotuchun.user.email}"
 
 
 class File_employee(models.Model):

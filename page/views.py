@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework.views import APIView
 from firebasesdkadmin import send_firebase_message
-from page.filters import MessageFilter, UserFilter, MessageFilter1
+from page.filters import *
 from .models import *
 from rest_framework_jwt.settings import api_settings
 from page.pagination import LargeResultsSetPagination
@@ -470,7 +470,6 @@ def post_message(request):
         text = request.data['text']
         end_time = request.data['end_time']
         for x in user:
-            print(x, 'ssssssssssssssssssssssss')
             user1 = User.objects.filter(id=x)
             message = Message.objects.create(
                 # user=request.user,
@@ -505,6 +504,60 @@ def post_message(request):
         return Response(res)
 
 
+@api_view(['POST'])
+@permission_classes([IsAdminUser, ])
+def post_malumotuchun(request):
+    try:
+        item_serializer = UserArraySerializer(data=request.data)
+        item_serializer.is_valid(raise_exception=True)
+        user = item_serializer.data['user']
+        text = request.data['text']
+        for x in user:
+            user1 = User.objects.filter(id=x)
+            message = MalumotUchun.objects.create(
+                user_id=x,
+                text=text,
+                created_user=request.user.id,
+
+            )
+            message.save()
+            # funksiya
+            send_firebase_message(user1.last().firebase_token, 'Hujjat Almashinuv Tizimi', 'Yangi xabar')
+            files = request.FILES.getlist('file')
+            for file in files:
+                File.objects.create(
+                    file=file,
+                    malumotuchun=message
+                )
+        result = {
+            'status': 1,
+            'msg': 'add_message',
+            'message': PostMalumotUchunSerializer(message, many=False, context={"request": request}).data,
+        }
+        return Response(result, status=status.HTTP_200_OK)
+
+    except KeyError:
+        res = {
+            'status': 0,
+            'msg': 'erorr add_message'
+        }
+        return Response(res)
+
+
+class MalumotDetailView(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = MalumotSerializerAll
+    permission_classes = [IsAuthenticated]
+    queryset = MalumotUchun.objects.order_by('-id').all()
+    # pagination_class = LimitOffsetPagination
+    filterset_class = MalumotUchunFilter
+    pagination_class = LargeResultsSetPagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+
+    def get_queryset(self):
+        queryset = MalumotUchun.objects.filter(user_id=self.request.user.id)
+        return queryset
+
+
 class MessageViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = GetMessageSerializerAll2
     permission_classes = [IsAuthenticated]
@@ -520,6 +573,20 @@ class MessageViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.Gener
 
         if event.state:
             return queryset
+
+
+class MalumotuchunViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = MalumotSerializerAll
+    permission_classes = [IsAuthenticated]
+    queryset = MalumotUchun.objects.order_by('-id').all()
+    # pagination_class = LimitOffsetPagination
+    filterset_class = MalumotUchunFilter
+    pagination_class = LargeResultsSetPagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+
+    def get_queryset(self):
+        queryset = MalumotUchun.objects.filter(created_user=self.request.user.id)
+        return queryset
 
 
 class GetUserMessageViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -590,9 +657,6 @@ class GetUsersStatisticsViewSet(generics.ListAPIView, mixins.ListModelMixin, vie
 
 
 from django.db.models import Q, Count
-
-
-
 
 
 class StatisticsAll(APIView):

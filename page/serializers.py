@@ -167,9 +167,6 @@ class UsersStatisticsSerializer(serializers.ModelSerializer):
         return message
 
 
-
-
-
 class ProfilSerializerAll(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -201,10 +198,19 @@ class PostMessageSerializer(serializers.ModelSerializer):
             return FileSerializer(file, many=True, context={'request': self.context['request']}).data
         return None
 
-    # def get_file(self, obj):
-    #     file = File.objects.filter(message=obj).all()
-    #     return FileSerializer(file, data=self.context('request').data, many=True,
-    #                           context={'request': self.context['request']}).data
+
+class PostMalumotUchunSerializer(serializers.ModelSerializer):
+    file = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MalumotUchun
+        fields = "__all__"
+
+    def get_file(self, obj):
+        file = File.objects.filter(malumotuchun=obj).all()
+        if file:
+            return FileSerializer(file, many=True, context={'request': self.context['request']}).data
+        return None
 
 
 class GetMessageSerializerAll(serializers.ModelSerializer):
@@ -279,8 +285,75 @@ class GetMessageSerializerAll2(serializers.ModelSerializer):
         images = File_employee.objects.filter(message=obj).all()
         return File_employeSerializer(images, many=True, context={'request': self.context['request']}).data
 
-    # def get_user2(self, obj):
-    #     return CustomuserSerializer2(obj.user, many=False, context={"request": self.context['request']}).data
+    def get_user(self, obj):
+        if obj.user:
+            return obj.user.username
+        return 0
+
+    def get_user_id(self, obj):
+        if obj.user:
+            return obj.user.id
+        return 0
+
+    def get_user_email(self, obj):
+        if obj.user:
+            return obj.user.email
+        return 0
+
+    def get_user_xonasi(self, obj):
+        if obj.user:
+            return obj.user.xonasi
+        return 0
+
+    def get_user_unvoni(self, obj):
+        if obj.user:
+            return obj.user.unvoni
+        return 0
+
+
+class MalumotSerializerAll(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+    user_id = serializers.SerializerMethodField()
+    user_email = serializers.SerializerMethodField()
+    user_xonasi = serializers.SerializerMethodField()
+    user_unvoni = serializers.SerializerMethodField()
+    file = serializers.SerializerMethodField()
+    adminusername = serializers.SerializerMethodField()
+    adminlast_name = serializers.SerializerMethodField()
+    patronymic_name = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
+    adminunvoni = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MalumotUchun
+        fields = ['id', 'text', 'user', 'user_id', 'user_email', 'user_xonasi', 'user_unvoni',
+                  'created_user', 'image', 'adminusername', 'adminlast_name', 'patronymic_name',
+                  'adminunvoni', 'file',
+                  ]
+
+    def get_image(self, obj):
+        user = User.objects.filter(id=obj.created_user)
+        return user.last().image.url
+
+    def get_adminunvoni(self, obj):
+        user = User.objects.filter(id=obj.created_user)
+        return user.last().unvoni
+
+    def get_patronymic_name(self, obj):
+        user = User.objects.filter(id=obj.created_user)
+        return user.last().patronymic_name
+
+    def get_adminusername(self, obj):
+        user = User.objects.filter(id=obj.created_user)
+        return user.last().username
+
+    def get_adminlast_name(self, obj):
+        user = User.objects.filter(id=obj.created_user)
+        return user.last().last_name
+
+    def get_file(self, obj):
+        images = File.objects.filter(malumotuchun=obj).all()
+        return FileSerializer(images, many=True, context={'request': self.context['request']}).data
 
     def get_user(self, obj):
         if obj.user:

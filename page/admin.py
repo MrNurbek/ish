@@ -47,6 +47,13 @@ class MessageAdmin(admin.ModelAdmin):
     inlines = [FileInline, FileEmployeeInline]
 
 
+class MalumotUchunAdmin(admin.ModelAdmin):
+    list_display = (
+        'id', 'user', 'created_user', 'text', 'created_at', 'read_time', 'updated_at',
+        'confirm_at')
+    inlines = [FileInline]
+
+
 class AllNotificationAdmin(admin.ModelAdmin):
     list_display = ('id', 'title')
 
@@ -58,6 +65,7 @@ class KorxonaAdmin(admin.ModelAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Message, MessageAdmin)
+admin.site.register(MalumotUchun, MalumotUchunAdmin)
 admin.site.register(File, FileAdmin)
 admin.site.register(File_employee, FileEmployeeAdmin)
 admin.site.register(AllNotification, AllNotificationAdmin)

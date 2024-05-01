@@ -1,5 +1,5 @@
 import django_filters
-from page.models import Message, User
+from page.models import *
 
 
 class MessageFilter(django_filters.FilterSet):
@@ -15,6 +15,14 @@ class MessageFilter1(django_filters.FilterSet):
 
     class Meta:
         model = Message
+        fields = ['id']
+
+
+class MalumotUchunFilter(django_filters.FilterSet):
+    user = django_filters.ModelChoiceFilter(queryset=User.objects.all())
+
+    class Meta:
+        model = MalumotUchun
         fields = ['id']
 
 

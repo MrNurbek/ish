@@ -20,8 +20,10 @@ schema_view = get_schema_view(
 
 router = routers.DefaultRouter()
 router.register(r'get_message', MessageViewSet),
+router.register(r'get_malumotuchun', MalumotuchunViewSet),
 router.register(r'get_user_message', GetUserMessageViewSet),
 router.register(r'message', MessageDetailView),
+router.register(r'malumotuchun', MalumotDetailView),
 router.register(r'messagepost', MessageDetailPostViewID),
 router.register(r'notification', GetAllMessageViewSet),
 router.register(r'get_users', GetUsersViewSet),
@@ -40,9 +42,10 @@ urlpatterns = [
     path('put_profil', profil),
     path('updateFirebase_token', updateFirebase_token),
     path('post_message', post_message),
+    path('post_malumotuchun', post_malumotuchun),
     path('user/<int:pk>/', UserDetailView.as_view(), name='user-profile'),
     path('exel/', export_movies_to_xlsx),
     path('solo_exel/', solo_export_movies_to_xlsx),
-    path('all_statistics', StatisticsAll.as_view(),)
+    path('all_statistics', StatisticsAll.as_view(), )
 ]
 urlpatterns += router.urls
