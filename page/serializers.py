@@ -249,10 +249,12 @@ class GetMessageSerializerAll2(serializers.ModelSerializer):
     patronymic_name = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
     adminunvoni = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Message
-        fields = ['id', 'text', 'text_employee', 'user', 'user_id', 'user_email', 'user_xonasi', 'user_unvoni',
+        fields = ['id', 'text', 'text_employee', 'user', 'last_name', 'patronymic_name', 'user_id', 'user_email',
+                  'user_xonasi', 'user_unvoni',
                   'end_time', 'created_user', 'image', 'adminusername', 'adminlast_name', 'patronymic_name',
                   'adminunvoni', 'file',
                   'file_employee']
@@ -288,6 +290,16 @@ class GetMessageSerializerAll2(serializers.ModelSerializer):
     def get_user(self, obj):
         if obj.user:
             return obj.user.username
+        return 0
+
+    def get_last_name(self, obj):
+        if obj.user:
+            return obj.user.last_name
+        return 0
+
+    def get_patronymic_name(self, obj):
+        if obj.user:
+            return obj.user.patronymic_name
         return 0
 
     def get_user_id(self, obj):
