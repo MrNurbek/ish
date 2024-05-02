@@ -291,7 +291,7 @@ class GetMessageSerializerAll2(serializers.ModelSerializer):
 
     def get_img_user(self, obj):
         if obj.user:
-            return obj.user.image
+            return obj.user.image.url
         return 0
 
     def get_user(self, obj):
