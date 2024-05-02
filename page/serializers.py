@@ -250,10 +250,12 @@ class GetMessageSerializerAll2(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
     adminunvoni = serializers.SerializerMethodField()
     last_name = serializers.SerializerMethodField()
+    img_user = serializers.SerializerMethodField()
 
     class Meta:
         model = Message
-        fields = ['id', 'text', 'text_employee', 'user', 'last_name', 'patronymic_name', 'user_id', 'user_email',
+        fields = ['id', 'text', 'text_employee', 'user', 'last_name', 'patronymic_name', 'img_user', 'user_id',
+                  'user_email',
                   'user_xonasi', 'user_unvoni',
                   'end_time', 'created_user', 'image', 'adminusername', 'adminlast_name', 'patronymic_name',
                   'adminunvoni', 'file',
@@ -286,6 +288,11 @@ class GetMessageSerializerAll2(serializers.ModelSerializer):
     def get_file_employee(self, obj):
         images = File_employee.objects.filter(message=obj).all()
         return File_employeSerializer(images, many=True, context={'request': self.context['request']}).data
+
+    def get_img_user(self, obj):
+        if obj.user:
+            return obj.user.image
+        return 0
 
     def get_user(self, obj):
         if obj.user:
