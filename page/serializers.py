@@ -332,6 +332,7 @@ class GetMessageSerializerAll2(serializers.ModelSerializer):
 
 class MalumotSerializerAll(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
     user_id = serializers.SerializerMethodField()
     user_email = serializers.SerializerMethodField()
     user_xonasi = serializers.SerializerMethodField()
@@ -340,17 +341,18 @@ class MalumotSerializerAll(serializers.ModelSerializer):
     adminusername = serializers.SerializerMethodField()
     adminlast_name = serializers.SerializerMethodField()
     patronymic_name = serializers.SerializerMethodField()
-    image = serializers.SerializerMethodField()
+    admin_image = serializers.SerializerMethodField()
     adminunvoni = serializers.SerializerMethodField()
+    img = serializers.SerializerMethodField()
 
     class Meta:
         model = MalumotUchun
-        fields = ['id', 'text', 'user', 'user_id', 'user_email', 'user_xonasi', 'user_unvoni',
-                  'created_user', 'image', 'adminusername', 'adminlast_name', 'patronymic_name',
+        fields = ['id', 'text', 'user', 'last_name', 'img', 'user_id', 'user_email', 'user_xonasi', 'user_unvoni',
+                  'created_user', 'admin_image', 'adminusername', 'adminlast_name', 'patronymic_name',
                   'adminunvoni', 'file',
                   ]
 
-    def get_image(self, obj):
+    def get_admin_image(self, obj):
         user = User.objects.filter(id=obj.created_user)
         return user.last().image.url
 
@@ -379,6 +381,11 @@ class MalumotSerializerAll(serializers.ModelSerializer):
             return obj.user.username
         return 0
 
+    def get_last_name(self, obj):
+        if obj.user:
+            return obj.user.last_name
+        return 0
+
     def get_user_id(self, obj):
         if obj.user:
             return obj.user.id
@@ -397,6 +404,11 @@ class MalumotSerializerAll(serializers.ModelSerializer):
     def get_user_unvoni(self, obj):
         if obj.user:
             return obj.user.unvoni
+        return 0
+
+    def get_img(self, obj):
+        if obj.user:
+            return obj.user.image.url
         return 0
 
 
