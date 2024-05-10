@@ -7,14 +7,44 @@ cred = credentials.Certificate('firebase-sdk.json')  # Maxfiy kalit faylining yo
 firebase_admin.initialize_app(cred)
 
 
-def send_firebase_message(firebase_token, title, body):
+def send_firebase_message(firebase_token, firebase_token_front, title, body):
     # Xabar tuzilishi
+
     message = messaging.Message(
         notification=messaging.Notification(
             title=title,
             body=body,
         ),
         token=firebase_token,
+        android=messaging.AndroidConfig(
+            ttl=datetime.timedelta(seconds=3600),
+            priority='high',
+            notification=messaging.AndroidNotification(
+                icon='stock_ticker_update',
+                color='#f45342'
+            ),
+        ),
+        apns=messaging.APNSConfig(
+            payload=messaging.APNSPayload(
+                aps=messaging.Aps(badge=42),
+            ),
+        ),
+    )
+
+    # Xabar yuborish
+    response = messaging.send(message)
+    return response
+
+
+def send_firebase_message1(firebase_token_front, title, body):
+    # Xabar tuzilishi
+
+    message = messaging.Message(
+        notification=messaging.Notification(
+            title=title,
+            body=body,
+        ),
+        token=firebase_token_front,
         android=messaging.AndroidConfig(
             ttl=datetime.timedelta(seconds=3600),
             priority='high',

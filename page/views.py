@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework.views import APIView
-from firebasesdkadmin import send_firebase_message
+from firebasesdkadmin import send_firebase_message, send_firebase_message1
 from page.filters import *
 from .models import *
 from rest_framework_jwt.settings import api_settings
@@ -199,6 +199,7 @@ def login(request):
         email = request.data.get('email')
         password = request.data.get('password')
         firebase_token = request.data.get('firebase_token')
+        android = request.data.get('android')
         if not login:
             res = {
                 'msg': 'Login empty',
@@ -229,7 +230,10 @@ def login(request):
                 'refresh': str(token),
 
             }
-            user.firebase_token = firebase_token
+            if android == '1':
+                user.firebase_token = firebase_token
+            elif android == '0':
+                user.firebase_token_front = firebase_token
             user.save()
             return Response(result, status=status.HTTP_200_OK)
         else:
@@ -482,7 +486,13 @@ def post_message(request):
             )
             message.save()
             # funksiya
-            send_firebase_message(user1.last().firebase_token, 'Hujjat Almashinuv Tizimi', 'Yangi xabar')
+            if user1.last().firebase_token:
+                send_firebase_message(user1.last().firebase_token, 'Hujjat Almashinuv Tizimi', 'Yangi xabar')
+            elif user1.last().firebase_token_front:
+                send_firebase_message1(user1.last().firebase_token_front, 'Hujjat Almashinuv Tizimi1', 'Yangi xabar1')
+            else:
+                pass
+
             files = request.FILES.getlist('file')
             for file in files:
                 File.objects.create(

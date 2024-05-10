@@ -347,9 +347,9 @@ class MalumotSerializerAll(serializers.ModelSerializer):
 
     class Meta:
         model = MalumotUchun
-        fields = ['id', 'text', 'user', 'last_name', 'img', 'user_id', 'user_email', 'user_xonasi', 'user_unvoni',
+        fields = ['id', 'user', 'last_name', 'img', 'user_id', 'user_email', 'user_xonasi', 'user_unvoni',
                   'created_user', 'admin_image', 'adminusername', 'adminlast_name', 'patronymic_name',
-                  'adminunvoni', 'file',
+                  'adminunvoni', 'text', 'file',
                   ]
 
     def get_admin_image(self, obj):
