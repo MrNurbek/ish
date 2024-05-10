@@ -7,7 +7,7 @@ cred = credentials.Certificate('firebase-sdk.json')  # Maxfiy kalit faylining yo
 firebase_admin.initialize_app(cred)
 
 
-def send_firebase_message(firebase_token, firebase_token_front, title, body):
+def send_firebase_message(firebase_token, title, body):
     # Xabar tuzilishi
 
     message = messaging.Message(
