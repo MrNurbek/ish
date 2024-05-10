@@ -486,9 +486,10 @@ def post_message(request):
             )
             message.save()
             # funksiya
-            if user1.last().firebase_token:
+            if user1.last().firebase_token and user1.last().firebase_token != 'null':
+                print('aaaaaaaaaaaaaaaaa')
                 send_firebase_message(user1.last().firebase_token, 'Hujjat Almashinuv Tizimi', 'Yangi xabar')
-            elif user1.last().firebase_token_front:
+            elif user1.last().firebase_token_front and user1.last().firebase_token_front != 'null':
                 send_firebase_message1(user1.last().firebase_token_front, 'Hujjat Almashinuv Tizimi1', 'Yangi xabar1')
             else:
                 pass
@@ -532,7 +533,13 @@ def post_malumotuchun(request):
             )
             message.save()
             # funksiya
-            send_firebase_message(user1.last().firebase_token, 'Hujjat Almashinuv Tizimi', 'Yangi xabar')
+            if user1.last().firebase_token and user1.last().firebase_token != 'null':
+                print('aaaaaaaaaaaaaaaaa')
+                send_firebase_message(user1.last().firebase_token, 'Hujjat Almashinuv Tizimi', 'Yangi xabar')
+            elif user1.last().firebase_token_front and user1.last().firebase_token_front != 'null':
+                send_firebase_message1(user1.last().firebase_token_front, 'Hujjat Almashinuv Tizimi1', 'Yangi xabar1')
+            else:
+                pass
             files = request.FILES.getlist('file')
             for file in files:
                 File.objects.create(
