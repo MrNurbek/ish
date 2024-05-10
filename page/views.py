@@ -585,7 +585,24 @@ class MessageViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.Gener
     def get_queryset(self):
         queryset = Message.objects.filter(created_user=self.request.user.id)
         event = Message.objects.first()
+        if event.state:
+            return queryset
 
+
+class MessageDetailView2(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = GetMessageSerializerAll2
+    permission_classes = [IsAuthenticated]
+    queryset = Message.objects.order_by('-id').all()
+    filterset_class = MessageFilter1
+    pagination_class = LargeResultsSetPagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+
+    def get_queryset(self):
+        queryset = Message.objects.filter(created_user=self.request.user.id, id=self.request.GET['id'])
+        event = Message.objects.first()
+        for x in queryset:
+            if x.status2 == 'kurilmagan' and x.status == 'bajarildi':
+                queryset.update(status2="kurildi")
         if event.state:
             return queryset
 

@@ -42,7 +42,8 @@ class UserAdmin(admin.ModelAdmin):
 
 class MessageAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'user', 'status', 'created_user', 'text', 'text_employee', 'created_at', 'read_time', 'updated_at',
+        'id', 'user', 'status', 'status2', 'created_user', 'text', 'text_employee', 'created_at', 'read_time',
+        'updated_at',
         'confirm_at')
     inlines = [FileInline, FileEmployeeInline]
 

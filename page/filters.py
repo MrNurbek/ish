@@ -7,7 +7,7 @@ class MessageFilter(django_filters.FilterSet):
 
     class Meta:
         model = Message
-        fields = ['id', 'user__username', 'status']
+        fields = ['id', 'user__username', 'status', 'status2']
 
 
 class MessageFilter1(django_filters.FilterSet):

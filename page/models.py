@@ -96,10 +96,15 @@ class Message(models.Model):
         ('kechikibbajarildi', 'KECHIKIBBAJARILDI'),
         ('bajarilmadi', 'BAJARILMADI')
     )
+    gg_CHOICES = (
+        ('kurilmagan', 'KURILMAGAN'),
+        ('kurildi', 'KURILDI'),
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="message")
     text = models.TextField(null=True, blank=True)
     text_employee = models.TextField(null=True, blank=True)
     status = models.CharField(choices=GENDER_CHOICES, max_length=50, null=True, blank=True)
+    status2 = models.CharField(choices=gg_CHOICES, default='kurilmagan', max_length=50, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     read_time = models.DateTimeField(auto_now=False, null=True)
     end_time = models.DateField(auto_now=False, null=True)
