@@ -573,6 +573,23 @@ class MalumotDetailView(generics.ListAPIView, mixins.ListModelMixin, viewsets.Ge
         return queryset
 
 
+class MalumotDetailView2(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = MalumotSerializerAll
+    permission_classes = [IsAuthenticated]
+    queryset = Message.objects.order_by('-id').all()
+    filterset_class = MalumotUchunFilter
+    pagination_class = LargeResultsSetPagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+
+    def get_queryset(self):
+        queryset = MalumotUchun.objects.filter(user_id=self.request.user.id, id=self.request.GET['id'])
+
+        for x in queryset:
+            if x.status == 'kurilmagan':
+                queryset.update(status="kurildi")
+            return queryset
+
+
 class MessageViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = GetMessageSerializerAll2
     permission_classes = [IsAuthenticated]

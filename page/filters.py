@@ -23,7 +23,7 @@ class MalumotUchunFilter(django_filters.FilterSet):
 
     class Meta:
         model = MalumotUchun
-        fields = ['id']
+        fields = ['id', 'status']
 
 
 class UserFilter(django_filters.FilterSet):

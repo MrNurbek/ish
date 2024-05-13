@@ -50,7 +50,7 @@ class MessageAdmin(admin.ModelAdmin):
 
 class MalumotUchunAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'user', 'created_user', 'text', 'created_at', 'read_time', 'updated_at',
+        'id', 'user', 'created_user', 'status', 'text', 'created_at', 'read_time', 'updated_at',
         'confirm_at')
     inlines = [FileInline]
 
