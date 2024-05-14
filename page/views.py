@@ -298,7 +298,6 @@ def set_password(request):
 def profil(request):
     try:
         user = request.user
-
         username = request.data.get('username', user.username)
         last_name = request.data.get('last_name', user.last_name)
         patronymic_name = request.data.get('patronymic_name', user.patronymic_name)
@@ -433,6 +432,24 @@ class MessageDetailView(generics.ListAPIView, mixins.ListModelMixin, viewsets.Ge
             if x.status != 'bajarilmadi' and x.status != 'bajarildi':
                 queryset.update(status="qabulqildi")
         return queryset
+
+
+class MessageDetailView2(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = GetMessageSerializerAll2
+    permission_classes = [IsAuthenticated]
+    queryset = Message.objects.order_by('-id').all()
+    filterset_class = MessageFilter1
+    pagination_class = LargeResultsSetPagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+
+    def get_queryset(self):
+        queryset = Message.objects.filter(created_user=self.request.user.id, id=self.request.GET['id'])
+        event = Message.objects.first()
+        for x in queryset:
+            if x.status2 == 'kurilmagan' and x.status == 'bajarildi':
+                queryset.update(status2="kurildi")
+        if event.state:
+            return queryset
 
 
 class MessageDetailPostViewID(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -752,7 +769,8 @@ import csv
 
 # Students name
 
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
 def export_movies_to_xlsx(request):
     user_queryset = User.objects.all()
 
@@ -822,6 +840,8 @@ def export_movies_to_xlsx(request):
     return response
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
 def solo_export_movies_to_xlsx(request):
     user_queryset = User.objects.all()
 
