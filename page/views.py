@@ -848,8 +848,9 @@ def solo_export_movies_to_xlsx(request):
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     )
-    response['Content-Disposition'] = 'attachment; filename={date}-movies.xlsx'.format(
-        date=datetime.now().strftime('%Y-%m-%d'),
+    response['Content-Disposition'] = 'attachment; filename={name}-{date}.xlsx'.format(
+        date=datetime.now().strftime('%Y-%m-%d',),
+        name=request.user.username
     )
     workbook = Workbook()
 
