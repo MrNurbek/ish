@@ -30,7 +30,8 @@ router.register(r'messagepost', MessageDetailPostViewID),
 router.register(r'notification', GetAllMessageViewSet),
 router.register(r'get_users', GetUsersViewSet),
 router.register(r'users_statistics', GetUsersStatisticsViewSet),
-router.register(r'solo_statistics', UsersStatisticsViewSet),
+router.register(r'solo_statistics', UsersStatisticsViewSet2),
+router.register(r'solo_statistics2', UsersStatisticsViewSet),
 router.register(r'korxona', GetKorxonaViewSet),
 
 urlpatterns = [
@@ -48,6 +49,8 @@ urlpatterns = [
     path('user/<int:pk>/', UserDetailView.as_view(), name='user-profile'),
     path('exel/', export_movies_to_xlsx),
     path('solo_exel/', solo_export_movies_to_xlsx),
-    path('all_statistics', StatisticsAll.as_view(), )
+    path('all_statistics', StatisticsAll.as_view(), ),
+    path('statistic_mengakelgan', StatisticsSolo.as_view(), ),
+    path('statistic_menyuborgan', StatisticsSolo2.as_view(), )
 ]
 urlpatterns += router.urls

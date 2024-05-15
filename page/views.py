@@ -742,8 +742,61 @@ class StatisticsAll(APIView):
         return Response(content)
 
 
+class StatisticsSolo(APIView):
+    # permission_classes = [IsSuperUser]  # policy attribute
+
+    def get(self, request):
+        user = User.objects.get(id=self.request.user.id)
+        print(user, 'ssssssssssssssssssss')
+        yuborildi = Message.objects.filter(status='yuborildi', user_id=user.id).count()
+        qabulqildi = Message.objects.filter(status='qabulqildi', user_id=user.id).count()
+        bajarildi = Message.objects.filter(status='bajarildi', user_id=user.id).count()
+        kechikibbajarildi = Message.objects.filter(status='kechikibbajarildi', user_id=user.id).count()
+        bajarilmadi = Message.objects.filter(status='bajarilmadi', user_id=user.id).count()
+        content = {
+            'yuborildi': yuborildi,
+            'qabulqildi': qabulqildi,
+            'bajarildi': bajarildi,
+            'kechikibbajarildi': kechikibbajarildi,
+            'bajarilmadi': bajarilmadi,
+        }
+
+        return Response(content)
+
+
+class StatisticsSolo2(APIView):
+    # permission_classes = [IsSuperUser]  # policy attribute
+
+    def get(self, request):
+        user = User.objects.get(id=self.request.user.id)
+        print(user, 'ssssssssssssssssssss')
+        yuborildi = Message.objects.filter(status='yuborildi', created_user=user.id).count()
+        qabulqildi = Message.objects.filter(status='qabulqildi', created_user=user.id).count()
+        bajarildi = Message.objects.filter(status='bajarildi', created_user=user.id).count()
+        kechikibbajarildi = Message.objects.filter(status='kechikibbajarildi', created_user=user.id).count()
+        bajarilmadi = Message.objects.filter(status='bajarilmadi', created_user=user.id).count()
+        content = {
+            'yuborildi': yuborildi,
+            'qabulqildi': qabulqildi,
+            'bajarildi': bajarildi,
+            'kechikibbajarildi': kechikibbajarildi,
+            'bajarilmadi': bajarilmadi,
+        }
+
+        return Response(content)
+
+
 class UsersStatisticsViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = UsersStatisticsSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = User.objects.order_by('-id').all()
+    filterset_class = UserFilter
+    pagination_class = LargeResultsSetPagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+
+
+class UsersStatisticsViewSet2(generics.ListAPIView, mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = UsersStatisticsSerializer2
     permission_classes = [IsAuthenticated]
     queryset = User.objects.order_by('-id').all()
     filterset_class = UserFilter
@@ -849,7 +902,80 @@ def solo_export_movies_to_xlsx(request):
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     )
     response['Content-Disposition'] = 'attachment; filename={name}-{date}.xlsx'.format(
-        date=datetime.now().strftime('%Y-%m-%d',),
+        date=datetime.now().strftime('%Y-%m-%d', ),
+        name=request.user.username
+    )
+    workbook = Workbook()
+
+    # Get active worksheet/tab
+    worksheet = workbook.active
+    worksheet.title = 'User'
+
+    # Define the titles for columns
+    columns = [
+        'Raqami',
+        'Ismi',
+        'Familyasi',
+        'Sharifi',
+        'yuborildi',
+        'qabulqildi',
+        'bajarildi',
+        'kechikibbajarildi',
+        'bajarilmadi',
+
+    ]
+    row_num = 1
+
+    # Assign the titles for each cell of the header
+    for col_num, column_title in enumerate(columns, 1):
+        cell = worksheet.cell(row=row_num, column=col_num)
+        cell.value = column_title
+
+    # Iterate through all movies
+    nomer = 0
+    for s in user_queryset:
+        row_num += 1
+        nomer += 1
+        yuborildi = Message.objects.filter(user=s, created_user=request.user.id, status='yuborildi').count()
+        qabulqildi = Message.objects.filter(user=s, created_user=request.user.id, status='qabulqildi').count()
+        bajarildi = Message.objects.filter(user=s, created_user=request.user.id, status='bajarildi').count()
+        kechikibbajarildi = Message.objects.filter(user=s, created_user=request.user.id,
+                                                   status='kechikibbajarildi').count()
+        bajarilmadi = Message.objects.filter(user=s, created_user=request.user.id, status='bajarilmadi').count()
+
+        # Define the data for each cell in the row
+        row = [
+            nomer,
+            s.username,
+            s.last_name,
+            s.patronymic_name,
+            yuborildi,
+            qabulqildi,
+            bajarildi,
+            kechikibbajarildi,
+            bajarilmadi
+
+        ]
+
+        for col_num, cell_value in enumerate(row, 1):
+            cell = worksheet.cell(row=row_num, column=col_num)
+            cell.value = cell_value
+
+    workbook.save(response)
+
+    return response
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def solo_export_movies_to_xlsx2(request):
+    user_queryset = User.objects.all()
+
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    )
+    response['Content-Disposition'] = 'attachment; filename={name}-{date}.xlsx'.format(
+        date=datetime.now().strftime('%Y-%m-%d', ),
         name=request.user.username
     )
     workbook = Workbook()

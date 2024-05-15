@@ -141,6 +141,46 @@ class UsersStatisticsSerializer(serializers.ModelSerializer):
                   'kechikibbajarildi', 'bajarilmadi']
 
     def get_yuborildi(self, obj):
+        print(obj,'ssssssssssssssssssssssssssss1')
+        request = self.context['request']
+        message = Message.objects.filter(created_user=obj.id, user_id=request.user.id, status='yuborildi').count()
+        return message
+
+    #
+    def get_qabulqildi(self, obj):
+        request = self.context['request']
+        message = Message.objects.filter(created_user=obj.id, user_id=request.user.id, status='qabulqildi').count()
+        return message
+
+    def get_bajarildi(self, obj):
+        request = self.context['request']
+        message = Message.objects.filter(created_user=obj.id, user_id=request.user.id, status='bajarildi').count()
+        return message
+
+    def get_kechikibbajarildi(self, obj):
+        request = self.context['request']
+        message = Message.objects.filter(created_user=obj.id, user_id=request.user.id, status='kechikibbajarildi').count()
+        return message
+
+    def get_bajarilmadi(self, obj):
+        request = self.context['request']
+        message = Message.objects.filter(user=obj, user_id=request.user.id, status='bajarilmadi').count()
+        return message
+
+
+class UsersStatisticsSerializer2(serializers.ModelSerializer):
+    yuborildi = serializers.SerializerMethodField()
+    qabulqildi = serializers.SerializerMethodField()
+    bajarildi = serializers.SerializerMethodField()
+    kechikibbajarildi = serializers.SerializerMethodField()
+    bajarilmadi = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ['id', "last_name", 'username', 'patronymic_name', 'yuborildi', 'qabulqildi', 'bajarildi',
+                  'kechikibbajarildi', 'bajarilmadi']
+
+    def get_yuborildi(self, obj):
         request = self.context['request']
         message = Message.objects.filter(user=obj, created_user=request.user.id, status='yuborildi').count()
         return message
