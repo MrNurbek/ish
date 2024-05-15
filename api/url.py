@@ -49,6 +49,7 @@ urlpatterns = [
     path('user/<int:pk>/', UserDetailView.as_view(), name='user-profile'),
     path('exel/', export_movies_to_xlsx),
     path('solo_exel/', solo_export_movies_to_xlsx),
+    path('solo_exel2/', solo_export_movies_to_xlsx2),
     path('all_statistics', StatisticsAll.as_view(), ),
     path('statistic_mengakelgan', StatisticsSolo.as_view(), ),
     path('statistic_menyuborgan', StatisticsSolo2.as_view(), )

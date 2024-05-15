@@ -1009,12 +1009,12 @@ def solo_export_movies_to_xlsx2(request):
     for s in user_queryset:
         row_num += 1
         nomer += 1
-        yuborildi = Message.objects.filter(user=s, created_user=request.user.id, status='yuborildi').count()
-        qabulqildi = Message.objects.filter(user=s, created_user=request.user.id, status='qabulqildi').count()
-        bajarildi = Message.objects.filter(user=s, created_user=request.user.id, status='bajarildi').count()
-        kechikibbajarildi = Message.objects.filter(user=s, created_user=request.user.id,
+        yuborildi = Message.objects.filter(user=request.user.id, created_user=s.id, status='yuborildi').count()
+        qabulqildi = Message.objects.filter(user=request.user.id, created_user=s.id, status='qabulqildi').count()
+        bajarildi = Message.objects.filter(user=request.user.id, created_user=s.id, status='bajarildi').count()
+        kechikibbajarildi = Message.objects.filter(user=request.user.id, created_user=s.id,
                                                    status='kechikibbajarildi').count()
-        bajarilmadi = Message.objects.filter(user=s, created_user=request.user.id, status='bajarilmadi').count()
+        bajarilmadi = Message.objects.filter(user=request.user.id, created_user=s.id, status='bajarilmadi').count()
 
         # Define the data for each cell in the row
         row = [
