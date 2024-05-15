@@ -141,7 +141,7 @@ class UsersStatisticsSerializer(serializers.ModelSerializer):
                   'kechikibbajarildi', 'bajarilmadi']
 
     def get_yuborildi(self, obj):
-        print(obj,'ssssssssssssssssssssssssssss1')
+        print(obj, 'ssssssssssssssssssssssssssss1')
         request = self.context['request']
         message = Message.objects.filter(created_user=obj.id, user_id=request.user.id, status='yuborildi').count()
         return message
@@ -159,7 +159,8 @@ class UsersStatisticsSerializer(serializers.ModelSerializer):
 
     def get_kechikibbajarildi(self, obj):
         request = self.context['request']
-        message = Message.objects.filter(created_user=obj.id, user_id=request.user.id, status='kechikibbajarildi').count()
+        message = Message.objects.filter(created_user=obj.id, user_id=request.user.id,
+                                         status='kechikibbajarildi').count()
         return message
 
     def get_bajarilmadi(self, obj):
@@ -389,7 +390,7 @@ class MalumotSerializerAll(serializers.ModelSerializer):
         model = MalumotUchun
         fields = ['id', 'user', 'last_name', 'img', 'user_id', 'user_email', 'user_xonasi', 'user_unvoni',
                   'created_user', 'admin_image', 'adminusername', 'adminlast_name', 'patronymic_name',
-                  'adminunvoni', 'text', 'file',
+                  'adminunvoni', 'text', 'file', 'status',
                   ]
 
     def get_admin_image(self, obj):
