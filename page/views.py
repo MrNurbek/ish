@@ -747,7 +747,6 @@ class StatisticsSolo(APIView):
 
     def get(self, request):
         user = User.objects.get(id=self.request.user.id)
-        print(user, 'ssssssssssssssssssss')
         yuborildi = Message.objects.filter(status='yuborildi', user_id=user.id).count()
         qabulqildi = Message.objects.filter(status='qabulqildi', user_id=user.id).count()
         bajarildi = Message.objects.filter(status='bajarildi', user_id=user.id).count()
@@ -769,7 +768,6 @@ class StatisticsSolo2(APIView):
 
     def get(self, request):
         user = User.objects.get(id=self.request.user.id)
-        print(user, 'ssssssssssssssssssss')
         yuborildi = Message.objects.filter(status='yuborildi', created_user=user.id).count()
         qabulqildi = Message.objects.filter(status='qabulqildi', created_user=user.id).count()
         bajarildi = Message.objects.filter(status='bajarildi', created_user=user.id).count()
@@ -819,8 +817,6 @@ from django.http import HttpResponse
 # Create your views here.
 import csv
 
-
-# Students name
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])

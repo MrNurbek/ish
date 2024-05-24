@@ -74,3 +74,4 @@ admin.site.register(Korxona, KorxonaAdmin)
 admin.site.register(FoydaliLinklar)
 admin.site.register(IjtimoiyTarmoq)
 admin.site.register(Adress)
+
