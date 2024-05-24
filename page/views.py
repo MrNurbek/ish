@@ -502,6 +502,12 @@ def post_message(request):
 
             )
             message.save()
+            files = request.FILES.getlist('file')
+            for file in files:
+                File.objects.create(
+                    file=file,
+                    message=message
+                )
             # funksiya
             if user1.last().firebase_token and user1.last().firebase_token != 'null':
                 send_firebase_message(user1.last().firebase_token, 'Hujjat Almashinuv Tizimi', 'Yangi xabar')
@@ -510,12 +516,7 @@ def post_message(request):
             else:
                 pass
 
-            files = request.FILES.getlist('file')
-            for file in files:
-                File.objects.create(
-                    file=file,
-                    message=message
-                )
+
         result = {
             'status': 1,
             'msg': 'add_message',
