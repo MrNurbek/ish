@@ -585,13 +585,13 @@ def put_message(request):
 class MessageUpdateView(APIView):
     def get_object(self, pk):
         try:
-            return Message.objects.get(pk=pk, created_user=self.request.user.id)
+            return Message.objects.get(pk=pk, created_user=self.request.user.id, status='yuborildi')
         except Message.DoesNotExist:
             raise Http404
 
     def put(self, request, pk=None, format=None):
 
-        message = Message.objects.get(pk=pk, created_user=self.request.user.id)
+        message = Message.objects.get(pk=pk, created_user=self.request.user.id, status='yuborildi')
         serializer = PutMessageSerializer(instance=message, data=request.data, partial=True,
                                           context={'request': request})
         serializer.is_valid(raise_exception=True)
@@ -615,7 +615,7 @@ class MessageUpdateView(APIView):
         return response
 
     def delete(self, request, pk, format=None):
-        message = Message.objects.get(pk=pk, created_user=self.request.user.id)
+        message = Message.objects.get(pk=pk, created_user=self.request.user.id, status='yuborildi')
 
         message.delete()
 
