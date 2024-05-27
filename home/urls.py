@@ -1,29 +1,33 @@
 from django.conf.urls.static import static
 from django.contrib import admin
+
 from django.urls import path
 from django.urls import include
 from home import settings
-from django.conf.urls import url
+
 from django.urls import include, path
-from django.conf.urls import url
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 # -*- coding: utf-8 -*-
 
-from django.urls import path ,include
+from django.urls import path, include
 from django.conf.urls.i18n import i18n_patterns
+
+from page.views import LogoutView
+
 schema_view = get_schema_view(
-   openapi.Info(
-      title="Snippets API",
-      default_version='v1',
-      description="Test description",
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
+    openapi.Info(
+        title="Snippets API",
+        default_version='v1',
+        description="Test description",
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
 )
 urlpatterns = [
 
+                  # path('', include('admin_adminlte.urls')),
                   path('admin/', admin.site.urls),
                   path('i18n/', include('django.conf.urls.i18n')),
                   path("", include("api.url")),

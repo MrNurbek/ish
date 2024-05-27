@@ -2,6 +2,8 @@
 
 from django_filters import rest_framework
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.generics import UpdateAPIView, DestroyAPIView
+from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import permissions
@@ -25,14 +27,14 @@ from openpyxl import Workbook
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
-from django.conf.urls import url
 from rest_framework_swagger.views import get_swagger_view
 
-schema_view = get_swagger_view(title='Pastebin API')
 
-urlpatterns = [
-    url(r'^$', schema_view)
-]
+# schema_view = get_swagger_view(title='Pastebin API')
+#
+# urlpatterns = [
+#     url(r'^$', schema_view)
+# ]
 
 
 @api_view(['POST'])
@@ -516,7 +518,6 @@ def post_message(request):
             else:
                 pass
 
-
         result = {
             'status': 1,
             'msg': 'add_message',
@@ -530,6 +531,97 @@ def post_message(request):
             'msg': 'erorr add_message'
         }
         return Response(res)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated, ])
+def put_message(request):
+    try:
+        user = request.user
+        username = request.data.get('username', user.username)
+        last_name = request.data.get('last_name', user.last_name)
+        patronymic_name = request.data.get('patronymic_name', user.patronymic_name)
+        email = request.data.get('email', user.email)
+        phone_no = request.data.get('phone_no', user.phone_no)
+        image = request.data.get('image', user.image)
+        unvoni = request.data.get('unvoni', user.unvoni)
+        xonasi = request.data.get('xonasi', user.xonasi)
+        firebase_token = request.data.get('firebase_token', user.firebase_token)
+
+        user.username = username
+        user.last_name = last_name
+        user.patronymic_name = patronymic_name
+        user.email = email
+        user.phone_no = phone_no
+        user.image = image
+        user.xonasi = xonasi
+        user.unvoni = unvoni
+        user.firebase_token = firebase_token
+        user.save()
+
+        result = {
+            'status': 1,
+            'msg': 'User updated',
+            'user': CustomuserSerializer3(user, many=False, context={"request": request}).data
+        }
+        return Response(result, status=status.HTTP_200_OK)
+    except KeyError:
+        res = {
+            'status': 0,
+            'msg': 'Please set all reqiured fields'
+        }
+        return Response(res)
+
+
+# class MessageUpdateView(generics.UpdateAPIView, generics.DestroyAPIView):
+#     queryset = Message.objects.all()
+#     serializer_class = PutMessageSerializer
+#
+#     def get_queryset(self):
+#         queryset = Message.objects.filter(created_user=self.request.user.id)
+#         return queryset
+
+
+class MessageUpdateView(APIView):
+    def get_object(self, pk):
+        try:
+            return Message.objects.get(pk=pk, created_user=self.request.user.id)
+        except Message.DoesNotExist:
+            raise Http404
+
+    def put(self, request, pk=None, format=None):
+
+        message = Message.objects.get(pk=pk, created_user=self.request.user.id)
+        serializer = PutMessageSerializer(instance=message, data=request.data, partial=True,
+                                          context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        files = request.FILES.getlist('file')
+        if request.FILES.getlist('file'):
+            file = File.objects.filter(message=message)
+            file.delete()
+        for file in files:
+            File.objects.filter(message=message).create(
+                file=file,
+                message=message
+            )
+        response = Response()
+
+        response.data = {
+            'message': 'Message Updated Successfully',
+            'data': serializer.data,
+        }
+
+        return response
+
+    def delete(self, request, pk, format=None):
+        message = Message.objects.get(pk=pk, created_user=self.request.user.id)
+
+        message.delete()
+
+        return Response({
+            'message': 'Message Deleted Successfully'
+        })
 
 
 @api_view(['POST'])
@@ -813,7 +905,7 @@ class GetKorxonaViewSet(generics.ListAPIView, mixins.ListModelMixin, viewsets.Ge
 
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse, Http404
 
 # Create your views here.
 import csv

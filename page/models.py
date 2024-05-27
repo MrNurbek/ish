@@ -181,12 +181,13 @@ class File(models.Model):
     message = models.ForeignKey(Message, related_name='message', on_delete=models.CASCADE, null=True, blank=True)
     malumotuchun = models.ForeignKey(MalumotUchun, related_name='malumotucun', on_delete=models.CASCADE, null=True,
                                      blank=True)
-
     def __str__(self):
-        if self.message:
-            return f"{self.message.user.email}'s profile"
-        else:
-            return f"{self.malumotuchun.user.email}"
+        return f"{self.id}"
+    # def __str__(self):
+    #     if self.message:
+    #         return f"{self.message.user.email}'s profile"
+    #     else:
+    #         return f"{self.malumotuchun.user.email}"
 
 
 class File_employee(models.Model):

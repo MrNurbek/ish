@@ -1,10 +1,8 @@
 from django.urls import path
-from django.conf.urls import include, url
-from page.views import *
+from django.conf.urls import include
 from rest_framework import routers
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from rest_framework import permissions
 from page.views import *
 
 # -*- coding: utf-8 -*-
@@ -45,6 +43,7 @@ urlpatterns = [
     path('put_profil', profil),
     path('updateFirebase_token', updateFirebase_token),
     path('post_message', post_message),
+    path('update_message/<int:pk>/', MessageUpdateView.as_view(), name='message-update'),
     path('post_malumotuchun', post_malumotuchun),
     path('user/<int:pk>/', UserDetailView.as_view(), name='user-profile'),
     path('exel/', export_movies_to_xlsx),

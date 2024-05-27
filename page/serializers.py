@@ -240,6 +240,20 @@ class PostMessageSerializer(serializers.ModelSerializer):
         return None
 
 
+class PutMessageSerializer(serializers.ModelSerializer):
+    file = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Message
+        fields = ['id', 'user', 'text', 'file', 'end_time']
+
+    def get_file(self, obj):
+        file = File.objects.filter(message=obj).all()
+        if file:
+            return FileSerializer(file, many=True, context={'request': self.context['request']}).data
+        return None
+
+
 class PostMalumotUchunSerializer(serializers.ModelSerializer):
     file = serializers.SerializerMethodField()
 
