@@ -624,6 +624,48 @@ class MessageUpdateView(APIView):
         })
 
 
+class MalumotuchunUpdateView(APIView):
+    def get_object(self, pk):
+        try:
+            return MalumotUchun.objects.get(pk=pk, created_user=self.request.user.id, status='kurilmagan')
+        except MalumotUchun.DoesNotExist:
+            raise Http404
+
+    def put(self, request, pk=None, format=None):
+
+        malumotuchun = MalumotUchun.objects.get(pk=pk, created_user=self.request.user.id, status='kurilmagan')
+        serializer = PostMalumotUchunSerializer(instance=malumotuchun, data=request.data, partial=True,
+                                          context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        files = request.FILES.getlist('file')
+        if request.FILES.getlist('file'):
+            file = File.objects.filter(malumotuchun=malumotuchun)
+            file.delete()
+        for file in files:
+            File.objects.filter(malumotuchun=malumotuchun).create(
+                file=file,
+                malumotuchun=malumotuchun
+            )
+        response = Response()
+
+        response.data = {
+            'message': 'Message Updated Successfully',
+            'data': serializer.data,
+        }
+
+        return response
+
+    def delete(self, request, pk, format=None):
+        malumotuchun = MalumotUchun.objects.get(pk=pk, created_user=self.request.user.id, status='kurilmagan')
+
+        malumotuchun.delete()
+
+        return Response({
+            'message': 'Message Deleted Successfully'
+        })
+
+
 @api_view(['POST'])
 @permission_classes([IsAdminUser, ])
 def post_malumotuchun(request):
