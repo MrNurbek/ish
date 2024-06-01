@@ -580,48 +580,102 @@ def put_message(request):
 #     def get_queryset(self):
 #         queryset = Message.objects.filter(created_user=self.request.user.id)
 #         return queryset
+class MessageUpdate2View(APIView):
+    def get_object(self, ):
+        try:
+            return Message.objects.get(id=self.request.GET['id'], user=self.request.user, status='qabulqildi')
+        except Message.DoesNotExist:
+            raise Http404
+
+    def put(self, request, pk=None, format=None):
+        print(self.request.user, 'ssssssssssssssssssssss')
+
+        message = Message.objects.get(id=self.request.GET['id'], user=self.request.user, status='qabulqildi')
+        print(message, 'sssssssssssssssss')
+        message.status3 = '1'
+        message.save()
+
+        response = Response()
+
+        response.data = {
+            'message': 'Message Updated Successfully',
+        }
+        return response
 
 
 class MessageUpdateView(APIView):
     def get_object(self, pk):
         try:
-            return Message.objects.get(pk=pk, created_user=self.request.user.id, status='yuborildi')
+            return Message.objects.get(id=self.request.GET['id'], created_user=self.request.user.id, status='yuborildi')
         except Message.DoesNotExist:
             raise Http404
 
     def put(self, request, pk=None, format=None):
 
-        message = Message.objects.get(pk=pk, created_user=self.request.user.id, status='yuborildi')
-        serializer = PutMessageSerializer(instance=message, data=request.data, partial=True,
-                                          context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        files = request.FILES.getlist('file')
-        if request.FILES.getlist('file'):
-            file = File.objects.filter(message=message)
-            file.delete()
-        for file in files:
-            File.objects.filter(message=message).create(
-                file=file,
-                message=message
-            )
-        response = Response()
+        message = Message.objects.get(id=self.request.GET['id'], created_user=self.request.user.id)
+        if message.status == 'yuborildi':
+            serializer = PutMessageSerializer(instance=message, data=request.data, partial=True,
+                                              context={'request': request})
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            files = request.FILES.getlist('file')
+            if request.FILES.getlist('file'):
+                file = File.objects.filter(message=message)
+                file.delete()
+            for file in files:
+                File.objects.filter(message=message).create(
+                    file=file,
+                    message=message
+                )
+            response = Response()
 
-        response.data = {
-            'message': 'Message Updated Successfully',
-            'data': serializer.data,
-        }
+            response.data = {
+                'message': 'Message Updated Successfully',
+                'data': serializer.data,
+            }
 
-        return response
+            return response
 
-    def delete(self, request, pk, format=None):
-        message = Message.objects.get(pk=pk, created_user=self.request.user.id, status='yuborildi')
+        if message.status == 'qabulqildi' and message.status3 == '1':
+            serializer = PutMessageSerializer(instance=message, data=request.data, partial=True,
+                                              context={'request': request})
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            files = request.FILES.getlist('file')
+            if request.FILES.getlist('file'):
+                file = File.objects.filter(message=message)
+                file.delete()
+            for file in files:
+                File.objects.filter(message=message).create(
+                    file=file,
+                    message=message
+                )
+            response = Response()
 
-        message.delete()
+            response.data = {
+                'message': 'Message Updated Successfully',
+                'data': serializer.data,
+            }
 
-        return Response({
-            'message': 'Message Deleted Successfully'
-        })
+            return response
+        else:
+            pass
+
+    def delete(self, request, format=None):
+        message = Message.objects.get(id=self.request.GET['id'], created_user=self.request.user.id)
+        if message.status == 'yuborildi':
+            message.delete()
+            return Response({
+                'message': 'Message Deleted Successfully'
+            })
+
+        elif message.status == 'qabulqildi' and message.status3 == '1':
+            message.delete()
+            return Response({
+                'message': 'Message Deleted Successfully'
+            })
+        else:
+            pass
 
 
 class MalumotuchunUpdateView(APIView):
@@ -635,7 +689,7 @@ class MalumotuchunUpdateView(APIView):
 
         malumotuchun = MalumotUchun.objects.get(pk=pk, created_user=self.request.user.id, status='kurilmagan')
         serializer = PostMalumotUchunSerializer(instance=malumotuchun, data=request.data, partial=True,
-                                          context={'request': request})
+                                                context={'request': request})
         serializer.is_valid(raise_exception=True)
         serializer.save()
         files = request.FILES.getlist('file')

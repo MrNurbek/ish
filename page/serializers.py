@@ -314,7 +314,7 @@ class GetMessageSerializerAll2(serializers.ModelSerializer):
                   'user_xonasi', 'user_unvoni',
                   'end_time', 'created_user', 'image', 'adminusername', 'adminlast_name', 'patronymic_name',
                   'adminunvoni', 'file',
-                  'file_employee']
+                  'file_employee', 'status3']
 
     def get_image(self, obj):
         user = User.objects.filter(id=obj.created_user)

@@ -98,11 +98,16 @@ class Message(models.Model):
         ('kurilmagan', 'KURILMAGAN'),
         ('kurildi', 'KURILDI'),
     )
+    gg_CHOICES2 = (
+        ('1', 'RUXSAT'),
+        ('0', 'RUXSARYUQ'),
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="message")
     text = models.TextField(null=True, blank=True)
     text_employee = models.TextField(null=True, blank=True)
     status = models.CharField(choices=GENDER_CHOICES, max_length=50, null=True, blank=True)
     status2 = models.CharField(choices=gg_CHOICES, default='kurilmagan', max_length=50, null=True, blank=True)
+    status3 = models.CharField(choices=gg_CHOICES2, default='0', max_length=50, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     read_time = models.DateTimeField(auto_now=False, null=True)
     end_time = models.DateField(auto_now=False, null=True)
@@ -181,6 +186,7 @@ class File(models.Model):
     message = models.ForeignKey(Message, related_name='message', on_delete=models.CASCADE, null=True, blank=True)
     malumotuchun = models.ForeignKey(MalumotUchun, related_name='malumotucun', on_delete=models.CASCADE, null=True,
                                      blank=True)
+
     def __str__(self):
         return f"{self.id}"
     # def __str__(self):
