@@ -42,7 +42,8 @@ class UserAdmin(admin.ModelAdmin):
 
 class MessageAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'user', 'status', 'status2', 'created_user', 'text', 'text_employee', 'created_at', 'read_time',
+        'id', 'user', 'status', 'status2', 'status3', 'created_user', 'text', 'text_employee', 'created_at',
+        'read_time',
         'updated_at',
         'confirm_at')
     inlines = [FileInline, FileEmployeeInline]
@@ -74,4 +75,3 @@ admin.site.register(Korxona, KorxonaAdmin)
 admin.site.register(FoydaliLinklar)
 admin.site.register(IjtimoiyTarmoq)
 admin.site.register(Adress)
-
