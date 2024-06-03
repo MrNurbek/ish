@@ -679,15 +679,15 @@ class MessageUpdateView(APIView):
 
 
 class MalumotuchunUpdateView(APIView):
-    def get_object(self, pk):
+    def get_object(self):
         try:
-            return MalumotUchun.objects.get(pk=pk, created_user=self.request.user.id, status='kurilmagan')
+            return MalumotUchun.objects.get(id=self.request.GET['id'], created_user=self.request.user.id, status='kurilmagan')
         except MalumotUchun.DoesNotExist:
             raise Http404
 
-    def put(self, request, pk=None, format=None):
+    def put(self, request, format=None):
 
-        malumotuchun = MalumotUchun.objects.get(pk=pk, created_user=self.request.user.id, status='kurilmagan')
+        malumotuchun = MalumotUchun.objects.get(id=self.request.GET['id'], created_user=self.request.user.id, status='kurilmagan')
         serializer = PostMalumotUchunSerializer(instance=malumotuchun, data=request.data, partial=True,
                                                 context={'request': request})
         serializer.is_valid(raise_exception=True)
