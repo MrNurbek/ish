@@ -587,11 +587,8 @@ class MessageUpdate2View(APIView):
         except Message.DoesNotExist:
             raise Http404
 
-    def put(self, request, pk=None, format=None):
-        print(self.request.user, 'ssssssssssssssssssssss')
-
+    def put(self, request, format=None):
         message = Message.objects.get(id=self.request.GET['id'], user=self.request.user, status='qabulqildi')
-        print(message, 'sssssssssssssssss')
         message.status3 = '1'
         message.save()
 
@@ -604,13 +601,13 @@ class MessageUpdate2View(APIView):
 
 
 class MessageUpdateView(APIView):
-    def get_object(self, pk):
+    def get_object(self):
         try:
             return Message.objects.get(id=self.request.GET['id'], created_user=self.request.user.id, status='yuborildi')
         except Message.DoesNotExist:
             raise Http404
 
-    def put(self, request, pk=None, format=None):
+    def put(self, request, format=None):
 
         message = Message.objects.get(id=self.request.GET['id'], created_user=self.request.user.id)
         if message.status == 'yuborildi':
@@ -710,8 +707,8 @@ class MalumotuchunUpdateView(APIView):
 
         return response
 
-    def delete(self, request, pk, format=None):
-        malumotuchun = MalumotUchun.objects.get(pk=pk, created_user=self.request.user.id, status='kurilmagan')
+    def delete(self, request, format=None):
+        malumotuchun = MalumotUchun.objects.get(id=self.request.GET['id'], created_user=self.request.user.id, status='kurilmagan')
 
         malumotuchun.delete()
 
