@@ -108,24 +108,23 @@ class GetUsersStatisticsSerializer(serializers.ModelSerializer):
                   'yuborildi', 'qabulqildi', 'bajarildi', 'kechikibbajarildi', 'bajarilmadi', 'superuser']
 
     def get_yuborildi(self, obj):
-        message = Message.objects.filter(created_user=obj.id, status='yuborildi').count()
-
+        message = Message.objects.filter(user=obj, status='yuborildi').count()
         return message
 
     def get_qabulqildi(self, obj):
-        message = Message.objects.filter(created_user=obj.id, status='qabulqildi').count()
+        message = Message.objects.filter(user=obj, status='qabulqildi').count()
         return message
 
     def get_bajarildi(self, obj):
-        message = Message.objects.filter(created_user=obj.id, status='bajarildi').count()
+        message = Message.objects.filter(user=obj, status='bajarildi').count()
         return message
 
     def get_kechikibbajarildi(self, obj):
-        message = Message.objects.filter(created_user=obj.id, status='kechikibbajarildi').count()
+        message = Message.objects.filter(user=obj, status='kechikibbajarildi').count()
         return message
 
     def get_bajarilmadi(self, obj):
-        message = Message.objects.filter(created_user=obj.id, status='bajarilmadi').count()
+        message = Message.objects.filter(user=obj, status='bajarilmadi').count()
         return message
 
 
