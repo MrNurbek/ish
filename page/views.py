@@ -4,7 +4,7 @@ from django_filters import rest_framework
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import UpdateAPIView, DestroyAPIView
 from rest_framework.parsers import JSONParser
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser, BasePermission
 from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework.views import APIView
@@ -594,6 +594,17 @@ def put_message(request):
 #             'message': 'Message Updated Successfully',
 #         }
 #         return response
+
+class IsAuthenticated(BasePermission):
+    """
+    Allows access only to authenticated users.
+    """
+
+    def has_permission(self, request, view):
+        return bool(request.user and request.user.is_authenticated)
+
+    def has_object_permission(self, request, view, obj):
+        return request.user and request.user.is_authenticated
 
 
 class MessageUpdate2View(APIView):
