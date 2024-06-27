@@ -44,7 +44,7 @@ urlpatterns = [
     path('updateFirebase_token', updateFirebase_token),
     path('post_message', post_message),
     path('update_message/', MessageUpdateView.as_view(), name='message-update'),
-    path('delete_ruxsat/', MessageUpdate2View.as_view(), ),
+    path('delete_ruxsat/', MessageUpdate2View.as_view()),
     path('update_malumotuchun/', MalumotuchunUpdateView.as_view(), name='malumotuchun-update'),
     path('post_malumotuchun', post_malumotuchun),
     path('user/<int:pk>/', UserDetailView.as_view(), name='user-profile'),

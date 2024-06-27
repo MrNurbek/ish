@@ -580,24 +580,42 @@ def put_message(request):
 #     def get_queryset(self):
 #         queryset = Message.objects.filter(created_user=self.request.user.id)
 #         return queryset
+
+
+# class MessageUpdate2View(APIView):
+#     def put(self, request):
+#         message = Message.objects.get(id=self.request.GET['id'], user=self.request.user, status='qabulqildi')
+#         message.status3 = '1'
+#         message.save()
+#
+#         response = Response()
+#
+#         response.data = {
+#             'message': 'Message Updated Successfully',
+#         }
+#         return response
+
+
 class MessageUpdate2View(APIView):
-    def get_object(self, ):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
         try:
-            return Message.objects.get(id=self.request.GET['id'], user=self.request.user, status='qabulqildi')
+            message_id = request.GET.get('id')
+            if message_id:
+                message = Message.objects.get(id=message_id, user=request.user, status='qabulqildi')
+                message.status3 = '1'
+                message.save()
+
+                response = Response()
+                response.data = {
+                    'message': 'Message Updated Successfully',
+                }
+                return response
+            else:
+                return Response({'error': 'Missing message ID'}, status=400)
         except Message.DoesNotExist:
-            raise Http404
-
-    def put(self, request, format=None):
-        message = Message.objects.get(id=self.request.GET['id'], user=self.request.user, status='qabulqildi')
-        message.status3 = '1'
-        message.save()
-
-        response = Response()
-
-        response.data = {
-            'message': 'Message Updated Successfully',
-        }
-        return response
+            return Response({'error': 'Message not found'}, status=404)
 
 
 class MessageUpdateView(APIView):
