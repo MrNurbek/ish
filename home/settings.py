@@ -9,7 +9,7 @@ SECRET_KEY = '5k41_%6#te8&b!06@oh4+j)mpjybbcyoe-l5wx__&jsvn&jx*%'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['213.230.126.222', '213.230.126.222:9191', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 CORS_ALLOW_ALL_ORIGINS = True
